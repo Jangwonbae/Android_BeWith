@@ -1,0 +1,1216 @@
+{
+	"professor" : [
+		
+		{
+			"name" : "노흥식(Heung-Sik Noh) 교수",
+			"department" : "이공대학 소프트웨어공학과",
+			"tel" : "031-299-0765",
+			"lab" : "이공관5층510호",
+			"E-mail" : "hsnoh@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "황지온(Hwang Zion) 교수",
+			"department" : "이공대학 소프트웨어공학과",
+			"tel" : "031-299-1338",
+			"lab" : "이공관5층509호",
+			"E-mail" : "zhwang78@hanmail.net / zhwang@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "박혜승(Park Hyeseung) 교수",
+			"department" : "이공대학 소프트웨어공학과",
+			"tel" : "031-299-0651",
+			"lab" : "-",
+			"E-mail" : "hs2000park@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김기수(KIM, KI-SOO) 교수",
+			"department" : "이공대학 소프트웨어공학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "kskim@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "한지유(Jiyou Han) 교수",
+			"department" : "이공대학 생명과학과",
+			"tel" : "031-299-0759",
+			"lab" : "이공관4층406호",
+			"E-mail" : "hanjiyou12@hanmail.net"
+		},
+		{
+			"name" : "정효성(Hyo Sung Jung) 교수",
+			"department" : "이공대학 생명과학과",
+			"tel" : "031-299-0870",
+			"lab" : "이공관8층807호",
+			"E-mail" : "hs0101j@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김종현(kim jong hyun) 교수",
+			"department" : "이공대학 생명과학과",
+			"tel" : "031-299-1321",
+			"lab" : "경영관5층525호",
+			"E-mail" : "kimjh0446@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "안태선(Tae-Sun An) 교수",
+			"department" : "이공대학 도시공학과",
+			"tel" : "031-299-0872",
+			"lab" : "이공관8층808호",
+			"E-mail" : "ats@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "최회균(Hoi-Kyun Choi) 교수",
+			"department" : "이공대학 도시공학과",
+			"tel" : "031-299-0873",
+			"lab" : "이공관7층709호",
+			"E-mail" : "hkchoi@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이상문(Sang-Moon Lee) 교수",
+			"department" : "이공대학 도시공학과",
+			"tel" : "031-299-0874",
+			"lab" : "이공관7층708호",
+			"E-mail" : "moon@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김인회(In-Hea Kim) 교수",
+			"department" : "이공대학 도시공학과",
+			"tel" : "031-299-0875",
+			"lab" : "이공관7층707호",
+			"E-mail" : "welldone1@empal.com"
+		},
+		{
+			"name" : "유제광(Yoo Je Gwang) 교수",
+			"department" : "이공대학 도시공학과",
+			"tel" : "031-299-0962",
+			"lab" : "이공관1층106호",
+			"E-mail" : "jegyoo@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김완기(Wanki Kim) 교수",
+			"department" : "이공대학 건축공학과",
+			"tel" : "031-299-0757",
+			"lab" : "이공관10층1005호",
+			"E-mail" : "archi-chemi@hanmail.net"
+		},
+		{
+			"name" : "김재열(KIM, JAE YEOL) 교수",
+			"department" : "이공대학 건축공학과",
+			"tel" : "031-299-0758",
+			"lab" : "이공관10층1004호",
+			"E-mail" : "jykim@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김창성(Kim, Chang Sung) 교수",
+			"department" : "이공대학 건축공학과",
+			"tel" : "031-299-1387",
+			"lab" : "이공관10층1003호",
+			"E-mail" : "cskim815@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "황성은(Hwang Sung Eun) 교수",
+			"department" : "이공대학 건축공학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "hse26@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "한정란(Jung Lan Han) 교수",
+			"department" : "이공대학 컴퓨터공학과",
+			"tel" : "031-299-0844",
+			"lab" : "이공관7층706호",
+			"E-mail" : "jlhan@uhs.ac.kr"
+		},
+		{
+			"name" : "이수종(LEE SOO-JONG) 교수",
+			"department" : "이공대학 컴퓨터공학과",
+			"tel" : "031-299-0767",
+			"lab" : "이공관5층508호",
+			"E-mail" : "sjlee@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "윤회진(Yoon, Hoijin) 교수",
+			"department" : "이공대학 컴퓨터공학과",
+			"tel" : "031-299-0841",
+			"lab" : "이공관5층507호",
+			"E-mail" : "hj.yoon@uhs.ac.kr"
+		},
+		{
+			"name" : "이경재(Lee, Kyoung Jae) 교수",
+			"department" : "이공대학 컴퓨터공학과",
+			"tel" : "031-299-1345",
+			"lab" : "이공관10층1002호",
+			"E-mail" : "bravo3rd@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "홍석주(SuckJoo Hong) 교수",
+			"department" : "이공대학 컴퓨터공학과",
+			"tel" : "031-299-1321",
+			"lab" : "경영관5층525호",
+			"E-mail" : "sjhong@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김은주(Eun-Joo Kim) 교수",
+			"department" : "이공대학 보건관리학과",
+			"tel" : "031-299-0751",
+			"lab" : "이공관6층611호",
+			"E-mail" : "albert@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "박남수(Nam-Soo Park) 교수",
+			"department" : "이공대학 보건관리학과",
+			"tel" : "031-299-0754",
+			"lab" : "이공관6층609호",
+			"E-mail" : "nspark@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "오은환(Eun-Hwan Oh) 교수",
+			"department" : "이공대학 보건관리학과",
+			"tel" : "031-299-0753",
+			"lab" : "이공관6층608호",
+			"E-mail" : "oh@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김민경(Kim Min Kyoung) 교수",
+			"department" : "이공대학 보건관리학과",
+			"tel" : "031-299-0750",
+			"lab" : "이공관6층611호",
+			"E-mail" : "kmk20@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이원찬(Wontchan Lee) 교수",
+			"department" : "이공대학 보건관리학과",
+			"tel" : "031-299-1389",
+			"lab" : "경영관2층226호",
+			"E-mail" : "daniel@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "고승덕(SEUNG DUK KO) 명예교수",
+			"department" : "이공대학 보건관리학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "joysdko@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "박해령(Hae-Ryeong Park) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-0805",
+			"lab" : "웨슬리관4층409호",
+			"E-mail" : "hrpark@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "서영석(Young-Suk Suh) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-0812",
+			"lab" : "웨슬리관4층419호",
+			"E-mail" : "yssps@hanmail.net"
+		},
+		{
+			"name" : "이세형(Se-Hyoung Lee) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-0814",
+			"lab" : "웨슬리관4층413호",
+			"E-mail" : "bcl2002@hanmail.net"
+		},
+		{
+			"name" : "서명수(Myung Soo Suh) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-0804",
+			"lab" : "웨슬리관4층418호",
+			"E-mail" : "m.suh@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이후천(Hu-Chun Lee) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-0806",
+			"lab" : "웨슬리관4층415호",
+			"E-mail" : "gm5691@hanmail.net"
+		},
+		{
+			"name" : "양재훈(JAYHOON YANG) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-0815",
+			"lab" : "웨슬리관4층411호",
+			"E-mail" : "jayhoonyang@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이충범(Choong-Bum Lee) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-0741",
+			"lab" : "-",
+			"E-mail" : "melongdrew@empal.com"
+		},
+		{
+			"name" : "홍순원(Soon-Won Hong) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-0851",
+			"lab" : "웨슬리관4층410호",
+			"E-mail" : "ethiker@uhs.ac.kr"
+		},
+		{
+			"name" : "김래용(Kim, Rae Yong) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-1385",
+			"lab" : "웨슬리관4층414호",
+			"E-mail" : "raeyongkim@hanmail.net"
+		},
+		{
+			"name" : "이찬석(Lee Chan Seok) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-1386",
+			"lab" : "웨슬리관3층321호",
+			"E-mail" : "jicheon21@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "황병배(ByungBae Hwang) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-1326",
+			"lab" : "-",
+			"E-mail" : "servanthwang@naver.com"
+		},
+		{
+			"name" : "신동욱(Shin, Dong-Ook) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-1391",
+			"lab" : "웨슬리관3층316호",
+			"E-mail" : "pfashin@yahoo.co.kr"
+		},
+		{
+			"name" : "권혁남(Kwon, Hyeok-Nam) 교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-1324",
+			"lab" : "웨슬리관4층412호",
+			"E-mail" : "toolofpraise@naver.com"
+		},
+		{
+			"name" : "김승룡(KIM, SEUNG RYONG) 석좌교수",
+			"department" : "신학대학 신학과",
+			"tel" : "031-299-0803",
+			"lab" : "웨슬리관4층407호",
+			"E-mail" : "srkim1917@hanmail.net"
+		},
+		{
+			"name" : "황현숙(HYON-SUK HWANG) 명예교수",
+			"department" : "신학대학 신학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "gohsong@hanmail.net"
+		},
+		{
+			"name" : "한정애(HAN JEONG-AE) 명예교수",
+			"department" : "신학대학 신학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "hanrhinow@hanmail.net"
+		},
+		{
+			"name" : "김성민(SEONG-MINNE KIM) 명예교수",
+			"department" : "신학대학 신학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "souyou67@hanmail.net"
+		},
+		{
+			"name" : "김영선(KIM, YOUNGSEON) 명예교수",
+			"department" : "신학대학 신학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "wespankim@hanmail.net"
+		},
+		{
+			"name" : "임영택(LIM YOUNGTAEK) 명예교수",
+			"department" : "신학대학 신학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "ytlim326@hanmail.net"
+		},
+		{
+			"name" : "나형석 명예교수",
+			"department" : "신학대학 신학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "E-mail :"
+		},
+		{
+			"name" : "박영호(Young-Ho Park) 교수",
+			"department" : "인문사회과학대학 문예창작학과",
+			"tel" : "031-299-0898",
+			"lab" : "인문사회관5층515호",
+			"E-mail" : "b8676@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김병호(Kim Byung Ho) 교수",
+			"department" : "인문사회과학대학 문예창작학과",
+			"tel" : "031-299-0744",
+			"lab" : "인문사회관4층411-3호",
+			"E-mail" : "achimjam@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "구광본 교수",
+			"department" : "인문사회과학대학 문예창작학과",
+			"tel" : "031-299-0784",
+			"lab" : "인문사회관5층514호",
+			"E-mail" : "vbook@naver.com"
+		},
+		{
+			"name" : "정동환(DONG-HWAN JUNG) 명예교수",
+			"department" : "인문사회과학대학 문예창작학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "jdh51330@hanmail.net"
+		},
+		{
+			"name" : "성정현(SUNG JUNG HYEUN) 교수",
+			"department" : "인문사회과학대학 사회복지학과",
+			"tel" : "031-299-0819",
+			"lab" : "인문사회관4층411-4호",
+			"E-mail" : "sung4381@hanmail.net"
+		},
+		{
+			"name" : "김진구(Kim gin gu) 교수",
+			"department" : "인문사회과학대학 사회복지학과",
+			"tel" : "031-299-0821",
+			"lab" : "인문사회관5층534호",
+			"E-mail" : "kjin2791@hanmail.net"
+		},
+		{
+			"name" : "신원우(SHIN, WON WOO) 교수",
+			"department" : "인문사회과학대학 사회복지학과",
+			"tel" : "031-299-0831",
+			"lab" : "인문사회관5층512호",
+			"E-mail" : "shinww@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "양희택(Yang Hee-taek) 교수",
+			"department" : "인문사회과학대학 사회복지학과",
+			"tel" : "031-299-0768",
+			"lab" : "인문사회관4층411-1호",
+			"E-mail" : "kicsos@hanmail.net"
+		},
+		{
+			"name" : "김희주(HeeJoo Kim) 교수",
+			"department" : "인문사회과학대학 사회복지학과",
+			"tel" : "031-299-1397",
+			"lab" : "인문사회관5층532호",
+			"E-mail" : "pennee@naver.com"
+		},
+		{
+			"name" : "김지혜(Kim Ji Hye) 교수",
+			"department" : "인문사회과학대학 사회복지학과",
+			"tel" : "031-299-1320",
+			"lab" : "인문사회관4층411-2호",
+			"E-mail" : "tochee@gmail.com"
+		},
+		{
+			"name" : "김진원(JINWON KIM) 교수",
+			"department" : "인문사회과학대학 사회복지학과",
+			"tel" : "031-299-0818",
+			"lab" : "인문사회관5층535호",
+			"E-mail" : "jwlove24@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김향초(KIM, HYANG CHO) 명예교수",
+			"department" : "인문사회과학대학 사회복지학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "hcho@uhs.ac.kr"
+		},
+		{
+			"name" : "이근홍(Keun-Hong Lee) 명예교수",
+			"department" : "인문사회과학대학 사회복지학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "keunhong1022@hanmail.net"
+		},
+		{
+			"name" : "김익균(Ik-Gyun Kim) 교수",
+			"department" : "인문사회과학대학 아동보육학과",
+			"tel" : "031-299-0822",
+			"lab" : "인문사회관5층517호",
+			"E-mail" : "ikgyunkim@hanmail.net"
+		},
+		{
+			"name" : "정덕희(Duk-Hee Chung) 교수",
+			"department" : "인문사회과학대학 아동보육학과",
+			"tel" : "031-299-0823",
+			"lab" : "인문사회관6층602호",
+			"E-mail" : "river0603@hanmail.net"
+		},
+		{
+			"name" : "우수경(Woo Soo Kyeong) 교수",
+			"department" : "인문사회과학대학 아동보육학과",
+			"tel" : "031-299-0742",
+			"lab" : "인문사회관5층511호",
+			"E-mail" : "pdywsk@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "박숙희(Park, Sook Hee) 교수",
+			"department" : "인문사회과학대학 아동보육학과",
+			"tel" : "031-299-0785",
+			"lab" : "-",
+			"E-mail" : "giftedness@daum.net"
+		},
+		{
+			"name" : "정원주 명예교수",
+			"department" : "인문사회과학대학 아동보육학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "E-mail :"
+		},
+		{
+			"name" : "고순철(Soon-Chul Ko) 교수",
+			"department" : "인문사회과학대학 도시행정학과",
+			"tel" : "031-299-0829",
+			"lab" : "인문사회관6층606호",
+			"E-mail" : "kosc@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "조영국(Young-Kug Joh) 교수",
+			"department" : "인문사회과학대학 도시행정학과",
+			"tel" : "031-299-0830",
+			"lab" : "-",
+			"E-mail" : "ykjoh@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "정인환(Inwhan JUNG) 교수",
+			"department" : "인문사회과학대학 도시행정학과",
+			"tel" : "031-299-0839",
+			"lab" : "인문사회관6층607호",
+			"E-mail" : "iwjung@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "노종천(Jong-Chun Roh) 교수",
+			"department" : "인문사회과학대학 도시행정학과",
+			"tel" : "031-299-1311",
+			"lab" : "인문사회관6층613호",
+			"E-mail" : "lawjc@naver.com"
+		},
+		{
+			"name" : "주경일(Joo Kyung Il ) 교수",
+			"department" : "인문사회과학대학 도시행정학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "jk1360@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이병기(BYUNG KI LEE) 명예교수",
+			"department" : "인문사회과학대학 도시행정학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "bklee@uhs.ac.kr"
+		},
+		{
+			"name" : "윤의영(EUI-YOUNG YOON) 명예교수",
+			"department" : "인문사회과학대학 도시행정학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "euiyoung@uhs.ac.kr"
+		},
+		{
+			"name" : "이창호(Chang-Ho Lee) 교수",
+			"department" : "인문사회과학대학 중국어문화학과",
+			"tel" : "031-299-0760",
+			"lab" : "인문사회관6층601호",
+			"E-mail" : "lch760@uhs.ac.kr"
+		},
+		{
+			"name" : "조득창(Deuk-Chang Cho) 교수",
+			"department" : "인문사회과학대학 중국어문화학과",
+			"tel" : "031-299-0764",
+			"lab" : "-",
+			"E-mail" : "chodc@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "박자영(PARK JAYOUNG) 교수",
+			"department" : "인문사회과학대학 중국어문화학과",
+			"tel" : "031-299-0763",
+			"lab" : "인문사회관5층536호",
+			"E-mail" : "aliceis@naver.com"
+		},
+		{
+			"name" : "조길 교수",
+			"department" : "인문사회과학대학 중국어문화학과",
+			"tel" : "031-299-0781",
+			"lab" : "인문사회관6층611호",
+			"E-mail" : "zhaoji@korea.com"
+		},
+		{
+			"name" : "공연(KONG YUAN) 교수",
+			"department" : "인문사회과학대학 중국어문화학과",
+			"tel" : "031-299-1302",
+			"lab" : "인문사회관4층411-5호",
+			"E-mail" : "kongyuan@naver.com"
+		},
+		{
+			"name" : "고재모(JE-MO KOH) 명예교수",
+			"department" : "인문사회과학대학 중국어문화학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "kojem55@naver.com"
+		},
+		{
+			"name" : "이영민(Lee Young-min) 교수",
+			"department" : "경영대학 경영학과[경영대학]",
+			"tel" : "031-299-0842",
+			"lab" : "경영관5층523호",
+			"E-mail" : "ymlee@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "윤종욱(Jongwook Yoon) 교수",
+			"department" : "경영대학 경영학과[경영대학]",
+			"tel" : "031-299-0843",
+			"lab" : "경영관5층524호",
+			"E-mail" : "jwyoon@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김광희(Kim, Kwanghee) 교수",
+			"department" : "경영대학 경영학과[경영대학]",
+			"tel" : "031-299-0845",
+			"lab" : "경영관5층522호",
+			"E-mail" : "kimkh@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "박순창 교수",
+			"department" : "경영대학 경영학과[경영대학]",
+			"tel" : "031-299-0840",
+			"lab" : "경영관5층507호",
+			"E-mail" : "psc@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "최운선(Choi Woon Seon) 교수",
+			"department" : "경영대학 경영학과[경영대학]",
+			"tel" : "031-299-1334",
+			"lab" : "경영관3층301-4호",
+			"E-mail" : "bizsolu@naver.com"
+		},
+		{
+			"name" : "윤재웅(Yun Jae Woong) 교수",
+			"department" : "경영대학 경영학과[경영대학]",
+			"tel" : "031-299-0961",
+			"lab" : "이공관1층106호",
+			"E-mail" : "jwyun3927@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "황인태(HWANG, IN TAE) 교수",
+			"department" : "경영대학 금융보험학과",
+			"tel" : "031-299-0869",
+			"lab" : "-",
+			"E-mail" : "ithwang@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "조규성(Cho, Gyu Seong) 교수",
+			"department" : "경영대학 금융보험학과",
+			"tel" : "031-299-1317",
+			"lab" : "경영관3층327호",
+			"E-mail" : "sooseok@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "조인영(Cho InYoung) 교수",
+			"department" : "경영대학 금융보험학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "iycho@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "정상진(SANG-JIN JUNG) 명예교수",
+			"department" : "경영대학 금융보험학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "jungsj654@gmail.com"
+		},
+		{
+			"name" : "이수로(Soo-Ro Lee) 교수",
+			"department" : "경영대학 세무회계학과",
+			"tel" : "031-299-0863",
+			"lab" : "경영관2층224호",
+			"E-mail" : "srlee1008@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이신남 교수",
+			"department" : "경영대학 세무회계학과",
+			"tel" : "031-299-0864",
+			"lab" : "-",
+			"E-mail" : "E-mail :"
+		},
+		{
+			"name" : "장기용(Jang Ki Yong) 교수",
+			"department" : "경영대학 세무회계학과",
+			"tel" : "031-299-0865",
+			"lab" : "경영관2층220호",
+			"E-mail" : "jangky@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "박승식(Park Seungsick) 교수",
+			"department" : "경영대학 세무회계학과",
+			"tel" : "031-299-1367",
+			"lab" : "경영관3층325호",
+			"E-mail" : "sspark365@daum.net"
+		},
+		{
+			"name" : "장영란(YOUNG-RAN CHANG ) 석좌교수",
+			"department" : "경영대학 세무회계학과",
+			"tel" : "-",
+			"lab" : "경영관4층424호",
+			"E-mail" : "jowon1022@hanmail.net"
+		},
+		{
+			"name" : "김민선(Kim Min Sun) 교수",
+			"department" : "경영대학 호텔관광경영학과",
+			"tel" : "031-299-1314",
+			"lab" : "경영관4층421호",
+			"E-mail" : "sunnyminkim@hanmail.net"
+		},
+		{
+			"name" : "이창욱(LEE Chang wook) 교수",
+			"department" : "경영대학 호텔관광경영학과",
+			"tel" : "031-299-1335",
+			"lab" : "경영관4층420호",
+			"E-mail" : "seeyoulee@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "오정근(Oh, Jeong-Keun) 교수",
+			"department" : "경영대학 호텔관광경영학과",
+			"tel" : "031-299-0859",
+			"lab" : "경영관3층326호",
+			"E-mail" : "tourzeegi@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "배일현(BAE, ILHYUN) 교수",
+			"department" : "경영대학 유통경영학과",
+			"tel" : "031-299-0861",
+			"lab" : "경영관4층422호",
+			"E-mail" : "baeih@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "안명아(An, Myounga) 교수",
+			"department" : "경영대학 유통경영학과",
+			"tel" : "031-299-0868",
+			"lab" : "경영관3층327호",
+			"E-mail" : "myoungaan@uhs.ac.kr"
+		},
+		{
+			"name" : "김웅진(WOONG-JIN KIM) 명예교수",
+			"department" : "경영대학 유통경영학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "profwjkim@hanmail.net"
+		},
+		{
+			"name" : "이경호(Kyung-Ho Lee) 교수",
+			"department" : "경영대학 글로벌통상·문화학과",
+			"tel" : "031-299-0832",
+			"lab" : "인문사회관5층520호",
+			"E-mail" : "khlee@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "오병석(Byung-Seok Oh) 교수",
+			"department" : "경영대학 글로벌통상·문화학과",
+			"tel" : "031-299-0860",
+			"lab" : "경영관3층321호",
+			"E-mail" : "obs1623@hanmail.net"
+		},
+		{
+			"name" : "전윤실(Jeon Yoon shil) 교수",
+			"department" : "경영대학 글로벌통상·문화학과",
+			"tel" : "031-299-0833",
+			"lab" : "인문사회관5층527호",
+			"E-mail" : "yoonshil@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "정영규(Jeong young-kyu) 교수",
+			"department" : "경영대학 글로벌통상·문화학과",
+			"tel" : "031-299-1305",
+			"lab" : "경영관3층301-1호",
+			"E-mail" : "jyk1752@hanmail.net"
+		},
+		{
+			"name" : "황남엽(Hwang,Namyeob) 교수",
+			"department" : "경영대학 글로벌통상·문화학과",
+			"tel" : "031-299-1329",
+			"lab" : "교양관2층206호",
+			"E-mail" : "mary-grace@hanmail.net"
+		},
+		{
+			"name" : "이종문(Lee Jong Moon) 교수",
+			"department" : "경영대학 글로벌통상·문화학과",
+			"tel" : "031-299-1308",
+			"lab" : "교양관3층305호",
+			"E-mail" : "ejm365@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김성호(SUNG-HO KIM) 명예교수",
+			"department" : "경영대학 글로벌통상·문화학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "harveykim@hanmail.net"
+		},
+		{
+			"name" : "김구슬(KIM KOOSEUL) 명예교수",
+			"department" : "경영대학 글로벌통상·문화학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "kooseulkim@gmail.com"
+		},
+		{
+			"name" : "김원석(Won Suok Kim) 교수",
+			"department" : "경영대학 미디어영상광고학과[경영대학]",
+			"tel" : "031-299-0846",
+			"lab" : "인문사회관6층608호",
+			"E-mail" : "tetkorea@daum.net"
+		},
+		{
+			"name" : "노병성(Roh Byung Sung) 교수",
+			"department" : "경영대학 미디어영상광고학과[경영대학]",
+			"tel" : "031-299-0847",
+			"lab" : "인문사회관6층614호",
+			"E-mail" : "rbs4827@naver.com"
+		},
+		{
+			"name" : "김재호(kim jae ho) 교수",
+			"department" : "경영대학 미디어영상광고학과[경영대학]",
+			"tel" : "031-299-1445",
+			"lab" : "경영관2층225호",
+			"E-mail" : "yescm@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이영철(LEE, YEONG CHUL) 교수",
+			"department" : "경영대학 미디어영상광고학과[경영대학]",
+			"tel" : "031-299-1303",
+			"lab" : "인문사회관5층519호",
+			"E-mail" : "lychul@hotmail.com"
+		},
+		{
+			"name" : "공병훈(Kong Byounghun) 교수",
+			"department" : "경영대학 미디어영상광고학과[경영대학]",
+			"tel" : "031-299-0899",
+			"lab" : "인문사회관5층513호",
+			"E-mail" : "hobbits84@gmail.com"
+		},
+		{
+			"name" : "박영흠(Park Young Heum) 교수",
+			"department" : "경영대학 미디어영상광고학과[경영대학]",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "pyh98@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김광렬(Kwang-Roul Kim) 교수",
+			"department" : "예술대학 가구디자인학과",
+			"tel" : "031-299-0882",
+			"lab" : "예술대실습관2층206호",
+			"E-mail" : "kimkr@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김영주 교수",
+			"department" : "예술대학 가구디자인학과",
+			"tel" : "031-299-0780",
+			"lab" : "예술대실습관2층205호",
+			"E-mail" : "dudwn16@naver.com"
+		},
+		{
+			"name" : "유영희(Young-Hee Yoo) 교수",
+			"department" : "예술대학 실내디자인학과",
+			"tel" : "031-299-0879",
+			"lab" : "-",
+			"E-mail" : "yhy3@uhs.ac.kr"
+		},
+		{
+			"name" : "김성혜(Sung-Hye Kim) 교수",
+			"department" : "예술대학 실내디자인학과",
+			"tel" : "031-299-0880",
+			"lab" : "예술관3층308호",
+			"E-mail" : "shkim67@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이재규(Jae-Kyu Lee) 교수",
+			"department" : "예술대학 실내디자인학과",
+			"tel" : "031-299-0881",
+			"lab" : "예술대실습관4층403호",
+			"E-mail" : "67ljk@hanmail.net"
+		},
+		{
+			"name" : "이상연 교수",
+			"department" : "예술대학 실내디자인학과",
+			"tel" : "031-299-1449",
+			"lab" : "경영관5층526호",
+			"E-mail" : "yeunlee@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김희완(kim hee wan) 교수",
+			"department" : "예술대학 실내디자인학과",
+			"tel" : "031-299-1341",
+			"lab" : "경영관2층222호",
+			"E-mail" : "hee7469@hanmail.net"
+		},
+		{
+			"name" : "민영희(Min, Young Hee) 교수",
+			"department" : "예술대학 실내디자인학과",
+			"tel" : "031-299-0903",
+			"lab" : "-",
+			"E-mail" : "minyh@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이정근 명예교수",
+			"department" : "예술대학 실내디자인학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "E-mail :"
+		},
+		{
+			"name" : "정규상(Kyu-Sang Jung) 교수",
+			"department" : "예술대학 시각디자인학과",
+			"tel" : "031-299-0878",
+			"lab" : "예술관3층306호",
+			"E-mail" : "proff@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "정희진(Hee-Jin chung) 교수",
+			"department" : "예술대학 시각디자인학과",
+			"tel" : "031-299-0884",
+			"lab" : "예술대실습관3층311호",
+			"E-mail" : "chung5586@hanmail.net"
+		},
+		{
+			"name" : "김진영 교수",
+			"department" : "예술대학 시각디자인학과",
+			"tel" : "031-299-0778",
+			"lab" : "경영관4층426호",
+			"E-mail" : "cr_kim39@naver.com"
+		},
+		{
+			"name" : "손성주 교수",
+			"department" : "예술대학 시각디자인학과",
+			"tel" : "031-299-0904",
+			"lab" : "예술대실습관3층306호",
+			"E-mail" : "sohewe@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이승영 교수",
+			"department" : "예술대학 시각디자인학과",
+			"tel" : "031-299-0783",
+			"lab" : "-",
+			"E-mail" : "sylee1030@hanmail.net"
+		},
+		{
+			"name" : "박은영(Eun-Young Park) 교수",
+			"department" : "예술대학 시각디자인학과",
+			"tel" : "031-299-1342",
+			"lab" : "경영관5층527호",
+			"E-mail" : "parkey@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "기영미(Ki Young Mi) 교수",
+			"department" : "예술대학 시각디자인학과",
+			"tel" : "031-299-1336",
+			"lab" : "경영관5층506호",
+			"E-mail" : "doctorkee@daum.net"
+		},
+		{
+			"name" : "김상현(kim sang hyun) 교수",
+			"department" : "예술대학 시각디자인학과",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "shkim@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "곽희준(Hee-Joon Kwak) 교수",
+			"department" : "예술대학 산업디자인학과",
+			"tel" : "031-299-0883",
+			"lab" : "예술관3층301호",
+			"E-mail" : "kjoon@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이영표(YOUNG PYO LEE) 교수",
+			"department" : "예술대학 산업디자인학과",
+			"tel" : "031-299-0885",
+			"lab" : "예술관3층303호",
+			"E-mail" : "idwow2000@yahoo.co.kr"
+		},
+		{
+			"name" : "위한림 교수",
+			"department" : "예술대학 산업디자인학과",
+			"tel" : "031-299-0886",
+			"lab" : "예술대실습관2층207호",
+			"E-mail" : "weehl@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "류수현(Soohyun Lyu) 교수",
+			"department" : "예술대학 산업디자인학과",
+			"tel" : "031-299-1323",
+			"lab" : "예술대실습관2층204호",
+			"E-mail" : "ustom14@naver.com"
+		},
+		{
+			"name" : "남미경(Mee-Kyung Nam) 교수",
+			"department" : "예술대학 산업디자인학과",
+			"tel" : "031-299-1319",
+			"lab" : "-",
+			"E-mail" : "mknam3@hanmail.net"
+		},
+		{
+			"name" : "임채숙(Chae Suk lim) 교수",
+			"department" : "예술대학 산업디자인학과",
+			"tel" : "031-299-1343",
+			"lab" : "경영관4층427호",
+			"E-mail" : "chae-suklim@hanmail.net"
+		},
+		{
+			"name" : "박석훈(Parkseokhoon) 교수",
+			"department" : "예술대학 산업디자인학과",
+			"tel" : "031-299-1442",
+			"lab" : "예술관3층305호",
+			"E-mail" : "hoon697591@naver.com"
+		},
+		{
+			"name" : "박성미(Seong-Mee Park) 교수",
+			"department" : "예술대학 음악학부(피아노전공)",
+			"tel" : "031-299-0895",
+			"lab" : "예술관3층316호",
+			"E-mail" : "sumirejjang@hanmail.net"
+		},
+		{
+			"name" : "이성철(Lee, Sungchul) 교수",
+			"department" : "예술대학 음악학부(피아노전공)",
+			"tel" : "031-299-0887",
+			"lab" : "예술관3층313호",
+			"E-mail" : "sclee@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이정재(JUNG-JAI LEE) 명예교수",
+			"department" : "예술대학 음악학부(피아노전공)",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "jj-lee51@hanmail.net"
+		},
+		{
+			"name" : "김현숙(HYUN-SOOK KIM) 명예교수",
+			"department" : "예술대학 음악학부(피아노전공)",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "0923hsk@naver.com"
+		},
+		{
+			"name" : "이지영(Lee, Jiyoung) 교수",
+			"department" : "예술대학 음악학부(관현악전공)",
+			"tel" : "031-299-0888",
+			"lab" : "예술관3층314호",
+			"E-mail" : "ezyoung@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "채윤(Chae, Youn) 교수",
+			"department" : "예술대학 음악학부(관현악전공)",
+			"tel" : "031-299-0896",
+			"lab" : "예술관2층248호",
+			"E-mail" : "youn-chae@hanmail.net"
+		},
+		{
+			"name" : "이일구(LEE IL KU) 교수",
+			"department" : "예술대학 음악학부(관현악전공)",
+			"tel" : "031-299-1322",
+			"lab" : "예술관2층247호",
+			"E-mail" : "ilkulee@hanmail.net"
+		},
+		{
+			"name" : "김미미(Mi-Mi Kim) 교수",
+			"department" : "예술대학 음악학부(성악전공)",
+			"tel" : "031-299-0891",
+			"lab" : "예술관3층318호",
+			"E-mail" : "kimmi2-sop@hanmail.net"
+		},
+		{
+			"name" : "김구삼(Gu-Sam Kim) 교수",
+			"department" : "예술대학 음악학부(성악전공)",
+			"tel" : "031-299-0894",
+			"lab" : "예술관3층315호",
+			"E-mail" : "isarkim@hanmail.net"
+		},
+		{
+			"name" : "이미혜(Mi-Hye Lee) 교수",
+			"department" : "예술대학 음악학부(성악전공)",
+			"tel" : "031-299-0890",
+			"lab" : "예술관3층317호",
+			"E-mail" : "lmhrosa@naver.com"
+		},
+		{
+			"name" : "이윤숙(LEE YOON SOOK) 교수",
+			"department" : "예술대학 음악학부(성악전공)",
+			"tel" : "031-299-1316",
+			"lab" : "예술관2층246호",
+			"E-mail" : "divayslee@hanmail.net"
+		},
+		{
+			"name" : "손기동(KI-DONG SONN) 명예교수",
+			"department" : "예술대학 음악학부(성악전공)",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "sonnkid86@naver.com"
+		},
+		{
+			"name" : "김억숙(Ouk-Sook Kim) 명예교수",
+			"department" : "예술대학 음악학부(성악전공)",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "E-mail :"
+		},
+		{
+			"name" : "김성(Seong Kim) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-0668",
+			"lab" : "교양관2층208호",
+			"E-mail" : "indiana1958@hanmail.net"
+		},
+		{
+			"name" : "손성수(Sung-Soo Sohn) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-0911",
+			"lab" : "경영관3층324호",
+			"E-mail" : "sohns@uhs.ac.kr"
+		},
+		{
+			"name" : "정대현(Jung Dae Hyun) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-1349",
+			"lab" : "교양관4층407호",
+			"E-mail" : "daehyun1@daum.net"
+		},
+		{
+			"name" : "권현용(kwon, hyoun yong) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-1310",
+			"lab" : "교양관2층207호",
+			"E-mail" : "khyong@hanmail.net"
+		},
+		{
+			"name" : "이효정(LEE, Hyo-Jeong) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-0787",
+			"lab" : "교양관3층306호",
+			"E-mail" : "hjlee@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "William H. Turner(William H. Turner) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-0789",
+			"lab" : "국제교류센터2층201호",
+			"E-mail" : "williamturner23@hotmail.com"
+		},
+		{
+			"name" : "David S. Nam(David S. Nam) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-1309",
+			"lab" : "국제교류센터2층202호",
+			"E-mail" : "namster33@yahoo.com"
+		},
+		{
+			"name" : "Edward Shaw William(Edward Shaw William) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-1395",
+			"lab" : "국제교류센터2층207호",
+			"E-mail" : "vickdisco@gmail.com"
+		},
+		{
+			"name" : "GREGORY SCOTT LEWIS(GREGORY SCOTT LEWIS) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-1384",
+			"lab" : "국제교류센터2층203호",
+			"E-mail" : "gslewis@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "송기출(SONG KI CHULL) 석좌교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "skc0505@hanmail.net"
+		},
+		{
+			"name" : "정도철(doochul, Chung) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "dcjung@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "송정헌(song jung hun) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "jhsong@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김지윤(Kim Ji Yun ) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "peace27@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "최중영(CHOI JUNG YOUNG) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "startup@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "김은비(Kim Eun Bee) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-0852",
+			"lab" : "경영관4층420호",
+			"E-mail" : "silverrain@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "이소은(Lee So Eun) 교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "031-299-1347",
+			"lab" : "-",
+			"E-mail" : "selee@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "숭인 명예교수",
+			"department" : "웨슬리창의융합대학",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "E-mail :"
+		},
+		{
+			"name" : "김익균(Ik-Gyun Kim) 교수",
+			"department" : "계약학과 사회복지대학원",
+			"tel" : "031-299-0822",
+			"lab" : "인문사회관5층517호",
+			"E-mail" : "ikgyunkim@hanmail.net"
+		},
+		{
+			"name" : "박상기(PARK SANG KI) 교수",
+			"department" : "계약학과 사회복지대학원",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "sangki0320@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "박상훈(PARK SANG HOON) 교수",
+			"department" : "계약학과 사회복지대학원",
+			"tel" : "031-299-0824",
+			"lab" : "인문사회관5층522호",
+			"E-mail" : "620psh@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "신현석(SHIN HYEON SEOG) 교수",
+			"department" : "계약학과 사회복지대학원",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "shin0598@naver.com"
+		},
+		{
+			"name" : "김향미(KIM HYANG MI) 교수",
+			"department" : "계약학과 아동보육학과(계약)",
+			"tel" : "-",
+			"lab" : "-",
+			"E-mail" : "kym112900@omail.uhs.ac.kr"
+		},
+		{
+			"name" : "장은미(Jang Eun Mee) 교수",
+			"department" : "계약학과 사회복지학과(계약)",
+			"tel" : "031-299-0849",
+			"lab" : "인문사회관4층416호",
+			"E-mail" : "yddckj@omail.uhs.ac.kr"
+		}
+		]
+}

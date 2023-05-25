@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/MyAndroid/BEWITH_05_05/app/src/main/res/layout/activity_community.xml" value="0.28940217391304346" />
+        <entry key="..\:/MyAndroid/BEWITH_05_05/app/src/main/res/layout/activity_set_nick.xml" value="0.2957427536231884" />
+        <entry key="..\:/MyAndroid/BEWITH_05_05/app/src/main/res/layout/reply_list.xml" value="0.2957427536231884" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/drawable/ic_baseline_subdirectory_arrow_right_24.xml" value="0.3592592592592593" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/drawable/test.xml" value="0.3723076923076923" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/layout/activity_community.xml" value="0.33" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/layout/activity_main.xml" value="0.3120471014492754" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/layout/activity_popup.xml" value="0.33106884057971014" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/layout/activity_update_reply.xml" value="0.33106884057971014" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/layout/bottom_sheet_layout.xml" value="0.3115942028985507" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/layout/fragment_reply_list.xml" value="0.3120471014492754" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/menu/context_menu.xml" value="0.3619791666666667" />
+        <entry key="..\:/MyAndroid/BEWITH_05_07/app/src/main/res/menu/refresh_menu.xml" value="0.3619791666666667" />
+        <entry key="..\:/MyAndroidProject_4.1_Java/BEWITH_05_02/app/src/main/res/drawable/border.xml" value="0.3515625" />
+        <entry key="..\:/MyAndroidProject_4.1_Java/BEWITH_05_02/app/src/main/res/drawable/ic_baseline_subdirectory_arrow_right_24.xml" value="0.3515625" />
+        <entry key="..\:/MyAndroidProject_4.1_Java/BEWITH_05_02/app/src/main/res/drawable/ic_launcher_background.xml" value="0.3515625" />
+        <entry key="..\:/MyAndroidProject_4.1_Java/BEWITH_05_02/app/src/main/res/layout/activity_community.xml" value="0.33" />
+        <entry key="..\:/MyAndroidProject_4.1_Java/BEWITH_05_02/app/src/main/res/layout/reply_list.xml" value="0.33125" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
