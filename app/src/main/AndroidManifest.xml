@@ -48,7 +48,7 @@
             android:name=".MapActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".view.main.activity.MainActivity"
             android:exported="true" />
         <activity
             android:name=".UpdatePopup"
