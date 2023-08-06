@@ -12,12 +12,9 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,24 +23,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
-import com.baoyz.swipemenulistview.SwipeMenuCreator;
-import com.baoyz.swipemenulistview.SwipeMenuItem;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.bewith.R;
-import com.example.bewith.UpdatePopup;
 import com.example.bewith.databinding.ActivityMainBinding;
-import com.example.bewith.javaclass.Constants;
+import com.example.bewith.view.main.data.Constants;
 import com.example.bewith.javaclass.GlobalList;
 import com.example.bewith.listclass.CommentData;
 import com.example.bewith.listclass.MyAdapter;
 import com.example.bewith.util.location.LocationProviderManager;
 import com.example.bewith.view.main.util.swipe_menu_list.SwipeMenuListCreator;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationAvailability;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -70,23 +58,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MainActivityViewModel mainActivityViewModel;
 
     private LocationProviderManager locationProviderManager;
+    public static double myLatitude;
+    public static double myLogitude;
+
+    private TextView noDataTextView;
+    private SwipeMenuListView myCommentListView;
+    private ListView commentListView;
 
     private GoogleMap mMap;
-    private TextView no_data;
-    ;
+
     private FloatingActionButton fb_reload;
     private Spinner radius;
     private ArrayList<String> radiusList = new ArrayList<>();
     private CommentData commentData;
-    private SwipeMenuListView listview;
-    private ListView cList;
+
     private MyAdapter myAdapter;
     public static ArrayList<CommentData> mData = new ArrayList<>();//내가 만든 commnet 정보
     public static ArrayList<CommentData> rData = new ArrayList<>();//반경 안에 있는 commnet 정보
     public static ArrayList<CommentData> cData;//comment 정보
 
-    public static double myLatitude;
-    public static double myLogitude;
+
 
     public String UUID;
     public int radiusIndex;
@@ -108,19 +99,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         UUID = intent.getStringExtra("UUID");
         myLatitude = Double.parseDouble(intent.getStringExtra("Lat"));
         myLogitude = Double.parseDouble(intent.getStringExtra("Lng"));
-
+        //위치 제공자 매니저 생성
         locationProviderManager = new LocationProviderManager(getBaseContext());
-        locationProviderManager.getMyLocation();
 
+        noDataTextView=binding.noDataTextView;
+        myCommentListView=binding.myCommnentListView;
+        commentListView=binding.commentListView;
+
+        //땡길 수 있는 리스트뷰 설정
+        myCommentListView.setMenuCreator(new SwipeMenuListCreator(getResources()).getCreator(getBaseContext()));
+        initListClick();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
         radiusIndex = 0;
 
-
-
-        no_data = findViewById(R.id.no_data);
 
         cData = ((GlobalList) getApplication()).getcData();
 
@@ -128,15 +123,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         createSpinner();//스피너 생성
 
-        listview = (SwipeMenuListView) findViewById(R.id.myCommentContents);//떙길 수 잇는 리스트 뷰
-        cList = (ListView) findViewById(R.id.commentContents);//레이아웃 리스트뷰
-        cList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(rData.get(position).latitude), Double.parseDouble(rData.get(position).logitude)), mMap.getCameraPosition().zoom));
 
-            }
-        });
+
         //코멘트 수정후 돌아왔을 때 실행
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
@@ -146,52 +134,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        //땡길 수 있는 리스트뷰 설정
-        listview.setMenuCreator(new SwipeMenuListCreator(getResources()).getCreator(getBaseContext()));
-        listview.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
-            @Override
-            public void onSwipeStart(int position) {
-                // swipe start
-                listview.smoothOpenMenu(position);
-            }
 
-            @Override
-            public void onSwipeEnd(int position) {
-                // swipe end
-                listview.smoothOpenMenu(position);
-            }
-        });
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(mData.get(i).latitude), Double.parseDouble(mData.get(i).logitude)), mMap.getCameraPosition().zoom));
-            }
-        });
-        listview.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
-                    case 0://수정
-                        Intent intent = new Intent(MainActivity.this, UpdatePopup.class);
-                        intent.putExtra("id", mData.get(position)._id);
-                        intent.putExtra("category", mData.get(position).category);
-                        intent.putExtra("text", mData.get(position).text);
-                        activityResultLauncher.launch(intent);
 
-                        break;
-                    case 1://삭제
-                        DeleteComment deleteComment = new DeleteComment();
-                        deleteComment.execute("http://" + IP_ADDRESS + "/deleteComment.php", Integer.toString(mData.get(position)._id));
-                        break;
-                }
-                return true;
-            }
-        });
-
-        cList.setVisibility(View.GONE);
+        commentListView.setVisibility(View.GONE);
         myAdapter = new MyAdapter(MainActivity.this, mData);//어뎁터에 어레이리스트를 붙임
-        listview.setAdapter(myAdapter);//리스트를 어뎁터에 붙임
+        myCommentListView.setAdapter(myAdapter);//리스트를 어뎁터에 붙임
 
     }
 
@@ -263,19 +211,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 radiusIndex = position;
                 if (position == 0) {//반경 리스트가 My Comment면
                     if (mData.isEmpty()) {
-                        no_data.setVisibility(View.VISIBLE);
+                        noDataTextView.setVisibility(View.VISIBLE);
                     } else {
-                        no_data.setVisibility(View.INVISIBLE);
+                        noDataTextView.setVisibility(View.INVISIBLE);
                     }
-                    listview.setVisibility(View.VISIBLE);//땡길 수 있는 리스트를 보이게
-                    cList.setVisibility(View.GONE);//일반 리스트를 안보이게
+                    myCommentListView.setVisibility(View.VISIBLE);//땡길 수 있는 리스트를 보이게
+                    commentListView.setVisibility(View.GONE);//일반 리스트를 안보이게
                     myAdapter = new MyAdapter(MainActivity.this, mData);//어뎁터에 어레이리스트를 붙임
-                    listview.setAdapter(myAdapter);//땡길 수 있는 리스트를 어뎁터에 붙임
+                    myCommentListView.setAdapter(myAdapter);//땡길 수 있는 리스트를 어뎁터에 붙임
                 } else {//다른게 선택되면
                    changeRadiusData();
 
                     myAdapter = new MyAdapter(MainActivity.this, rData);//어뎁터에 어레이리스트를 붙임
-                    cList.setAdapter(myAdapter);//일반 리스트를 어뎁터에 붙임
+                    commentListView.setAdapter(myAdapter);//일반 리스트를 어뎁터에 붙임
                     }
                 myAdapter.notifyDataSetChanged();//어뎁터 갱신
                 }
@@ -323,12 +271,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
             }
             if (rData.isEmpty()) {
-                no_data.setVisibility(View.VISIBLE);
+                noDataTextView.setVisibility(View.VISIBLE);
             } else {
-                no_data.setVisibility(View.INVISIBLE);
+                noDataTextView.setVisibility(View.INVISIBLE);
             }
-            cList.setVisibility(View.VISIBLE);//일반리스트를 보이게
-            listview.setVisibility(View.GONE);//땡길 수 있는 리스트를 안보이게
+        commentListView.setVisibility(View.VISIBLE);//일반리스트를 보이게
+        myCommentListView.setVisibility(View.GONE);//땡길 수 있는 리스트를 안보이게
 
     }
 
@@ -341,7 +289,58 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         myAdapter.notifyDataSetChanged();//어뎁터 갱신
     }
+    public void initListClick(){
+        //전체 사용자 comment 리스트 클릭 이벤트
+        commentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(rData.get(position).latitude), Double.parseDouble(rData.get(position).logitude)), mMap.getCameraPosition().zoom));
 
+            }
+        });
+        //swipeMenuListView 리스트 열었다 닫았다 메소드
+        myCommentListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
+            @Override
+            public void onSwipeStart(int position) {
+                // swipe start
+                myCommentListView.smoothOpenMenu(position);
+            }
+
+            @Override
+            public void onSwipeEnd(int position) {
+                // swipe end
+                myCommentListView.smoothOpenMenu(position);
+            }
+        });
+        //나의 comment 클릭 이벤트
+        myCommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(mData.get(i).latitude), Double.parseDouble(mData.get(i).logitude)), mMap.getCameraPosition().zoom));
+            }
+        });
+        //열려있을때 메뉴 클릭 메소드
+        myCommentListView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                switch (index) {
+                    case 0://수정
+                        //Intent intent = new Intent(MainActivity.this, UpdatePopup.class);
+                        //intent.putExtra("id", mData.get(position)._id);
+                        //intent.putExtra("category", mData.get(position).category);
+                        //intent.putExtra("text", mData.get(position).text);
+                        //activityResultLauncher.launch(intent);
+
+                        break;
+                    case 1://삭제
+                        DeleteComment deleteComment = new DeleteComment();
+                        deleteComment.execute("http://" + IP_ADDRESS + "/deleteComment.php", Integer.toString(mData.get(position)._id));
+                        break;
+                }
+                return true;
+            }
+        });
+    }
 
     public class UpdateComment extends AsyncTask<String, Void, String> {
         String errorString = null;
@@ -450,14 +449,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 }
                 if (rData.isEmpty()) {
-                    no_data.setVisibility(View.VISIBLE);
+                    noDataTextView.setVisibility(View.VISIBLE);
                 } else {
-                    no_data.setVisibility(View.INVISIBLE);
+                    noDataTextView.setVisibility(View.INVISIBLE);
                 }
-                cList.setVisibility(View.VISIBLE);//일반리스트를 보이게
-                listview.setVisibility(View.GONE);//땡길 수 있는 리스트를 안보이게
+                commentListView.setVisibility(View.VISIBLE);//일반리스트를 보이게
+                myCommentListView.setVisibility(View.GONE);//땡길 수 있는 리스트를 안보이게
                 myAdapter = new MyAdapter(MainActivity.this, rData);//어뎁터에 어레이리스트를 붙임
-                cList.setAdapter(myAdapter);
+                commentListView.setAdapter(myAdapter);
             }
             else{//내 Comment로 설정되어 있으면
                 mData.clear();
@@ -467,14 +466,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 }
                 if (mData.isEmpty()) {
-                    no_data.setVisibility(View.VISIBLE);
+                    noDataTextView.setVisibility(View.VISIBLE);
                 } else {
-                    no_data.setVisibility(View.INVISIBLE);
+                    noDataTextView.setVisibility(View.INVISIBLE);
                 }
-                listview.setVisibility(View.VISIBLE);//땡길 수 있는 리스트를 보이게
-                cList.setVisibility(View.GONE);//일반리스트를 보이게
+                myCommentListView.setVisibility(View.VISIBLE);//땡길 수 있는 리스트를 보이게
+                commentListView.setVisibility(View.GONE);//일반리스트를 보이게
                 myAdapter = new MyAdapter(MainActivity.this, mData);//어뎁터에 어레이리스트를 붙임
-                listview.setAdapter(myAdapter);
+                myCommentListView.setAdapter(myAdapter);
             }
             mMap.clear();
             for(int i = 0 ; i < cData.size(); i++) {//마커찍기

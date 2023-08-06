@@ -6,8 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,7 +18,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.example.bewith.javaclass.Constants;
 import com.example.bewith.javaclass.GlobalList;
 import com.example.bewith.listclass.CommentData;
 import com.google.android.gms.common.api.ApiException;

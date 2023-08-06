@@ -90,7 +90,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/no_data"
+                    android:id="@+id/no_data_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -98,12 +98,12 @@
                     android:textSize="16dp" />
 
                 <com.baoyz.swipemenulistview.SwipeMenuListView
-                    android:id="@+id/myCommentContents"
+                    android:id="@+id/my_commnent_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"></com.baoyz.swipemenulistview.SwipeMenuListView>
 
                 <ListView
-                    android:id="@+id/commentContents"
+                    android:id="@+id/comment_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </FrameLayout>
