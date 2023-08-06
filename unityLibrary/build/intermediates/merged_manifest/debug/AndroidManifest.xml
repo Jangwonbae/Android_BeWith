@@ -46,6 +46,12 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/UnityThemeSelector" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
             <meta-data
                 android:name="unityplayer.UnityActivity"
                 android:value="true" />
@@ -68,7 +74,7 @@
             android:value="portrait|landscape" />
         <meta-data
             android:name="unity.build-id"
-            android:value="664e6f65-1f4c-46b3-a646-31a662bf785e" />
+            android:value="4174bb30-2bd6-4a52-b3fb-2cadf8d16030" />
         <meta-data
             android:name="unityplayer.SkipPermissionsDialog"
             android:value="true" />

@@ -44,17 +44,14 @@ public class LocationProviderManager {
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //권한이 없으면 리턴
             return;
-        }
-        //위치정보 요청
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
-        locationCallback = new LocationCallback() {
+        }locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 MainActivity.myLatitude = locationResult.getLastLocation().getLatitude();
                 MainActivity.myLogitude = locationResult.getLastLocation().getLongitude();
                 fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-                Log.d("현재 위치", myLatitude + ", " + myLogitude);
+
 
             }
             @Override
@@ -62,5 +59,8 @@ public class LocationProviderManager {
                 super.onLocationAvailability(locationAvailability);
             }
         };
+        //위치정보 요청
+        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
     }
 }

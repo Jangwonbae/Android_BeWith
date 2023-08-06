@@ -15,6 +15,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<CommentData> mData = new ArrayList<>();//내가 만든 commnet 정보
     public static ArrayList<CommentData> rData = new ArrayList<>();//반경 안에 있는 commnet 정보
     public static ArrayList<CommentData> cData;//comment 정보
-
 
 
     public String UUID;
@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onClick(View v) {
                 locationProviderManager.getMyLocation();
+                Log.d("현재 위치", myLatitude + ", " + myLogitude);
                 UpdateComment updateComment = new UpdateComment();
                 updateComment.execute( "http://" + IP_ADDRESS + "/getComment.php", "");
 
