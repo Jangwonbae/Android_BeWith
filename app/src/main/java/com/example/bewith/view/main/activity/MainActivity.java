@@ -36,6 +36,8 @@ import com.example.bewith.javaclass.Constants;
 import com.example.bewith.javaclass.GlobalList;
 import com.example.bewith.listclass.CommentData;
 import com.example.bewith.listclass.MyAdapter;
+import com.example.bewith.util.location.LocationProviderManager;
+import com.example.bewith.view.main.util.swipe_menu_list.SwipeMenuListCreator;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationAvailability;
 import com.google.android.gms.location.LocationCallback;
@@ -67,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ActivityMainBinding binding;
     private MainActivityViewModel mainActivityViewModel;
 
+    private LocationProviderManager locationProviderManager;
 
     private GoogleMap mMap;
     private TextView no_data;
@@ -81,13 +84,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<CommentData> mData = new ArrayList<>();//내가 만든 commnet 정보
     public static ArrayList<CommentData> rData = new ArrayList<>();//반경 안에 있는 commnet 정보
     public static ArrayList<CommentData> cData;//comment 정보
-    private double myLatitude;
-    private double myLogitude;
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private LocationRequest locationRequest;
-    public static final int DEFAULT_LOCATION_REQUEST_PRIORITY = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY;
-    public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 2000L;
-    public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 2000L;
+
+    public static double myLatitude;
+    public static double myLogitude;
+
     public String UUID;
     public int radiusIndex;
     private static String IP_ADDRESS;
@@ -101,17 +101,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         //뷰모델 적용
         binding.setViewModel(mainActivityViewModel);
-        
-        getMyLocation();
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-        radiusIndex = 0;
+        //서버 IP
         IP_ADDRESS = Constants.IP_ADDRESS;
+        //유니티로 부터 받는 정보
         Intent intent = getIntent();
         UUID = intent.getStringExtra("UUID");
         myLatitude = Double.parseDouble(intent.getStringExtra("Lat"));
         myLogitude = Double.parseDouble(intent.getStringExtra("Lng"));
+
+        locationProviderManager = new LocationProviderManager(getBaseContext());
+        locationProviderManager.getMyLocation();
+
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        radiusIndex = 0;
+
 
 
         no_data = findViewById(R.id.no_data);
@@ -134,14 +140,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //코멘트 수정후 돌아왔을 때 실행
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
-                getMyLocation();
+                locationProviderManager.getMyLocation();
                 UpdateComment updateComment = new UpdateComment();
                 updateComment.execute("http://" + IP_ADDRESS + "/getComment.php", "");
             }
         });
 
         //땡길 수 있는 리스트뷰 설정
-        listview.setMenuCreator(creator);
+        listview.setMenuCreator(new SwipeMenuListCreator(getResources()).getCreator(getBaseContext()));
         listview.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
             @Override
             public void onSwipeStart(int position) {
@@ -197,38 +203,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    public int dpToPx(int dp) {
-        float density = getResources().getDisplayMetrics().density;
-        return Math.round((float) dp * density);
-    }
 
-    SwipeMenuCreator creator = new SwipeMenuCreator() {
-
-        @Override// list 땡가는 메뉴 만들기
-        public void create(SwipeMenu menu) {
-            // create "첫번째" item
-            SwipeMenuItem openItem = new SwipeMenuItem(
-                    MainActivity.this);
-
-            // create "delete" item
-            SwipeMenuItem deleteItem = new SwipeMenuItem(
-                    MainActivity.this);
-            // set item background
-            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                    0x3F, 0x25)));
-            openItem.setBackground(new ColorDrawable(Color.rgb(0xc0,
-                    0xc0, 0xc0)));
-            // set item width
-            deleteItem.setWidth(dpToPx(90));
-            openItem.setWidth(dpToPx(90));
-            // set a icon
-            deleteItem.setIcon(R.drawable.ic_baseline_delete_forever_24);
-            openItem.setIcon(R.drawable.ic_baseline_create_24);
-            // add to menu
-            menu.addMenuItem(openItem);
-            menu.addMenuItem(deleteItem);
-        }
-    };
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {//지도가 준비되면 실행됨
@@ -262,7 +237,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fb_reload.setOnClickListener(new View.OnClickListener() {//새로고침 버튼
             @Override
             public void onClick(View v) {
-                getMyLocation();
+                locationProviderManager.getMyLocation();
                 UpdateComment updateComment = new UpdateComment();
                 updateComment.execute( "http://" + IP_ADDRESS + "/getComment.php", "");
 
@@ -367,39 +342,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         myAdapter.notifyDataSetChanged();//어뎁터 갱신
     }
 
-    public void getMyLocation() {//내위치 갱신하기
-        if (locationRequest == null) {
-            locationRequest = LocationRequest.create();
-            locationRequest.setPriority(DEFAULT_LOCATION_REQUEST_PRIORITY);
-            locationRequest.setInterval(DEFAULT_LOCATION_REQUEST_INTERVAL);
-            locationRequest.setFastestInterval(DEFAULT_LOCATION_REQUEST_FAST_INTERVAL);
-        }
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
-        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            //권한이 없으면 리턴
-            return;
-        }//위치정보 요청
-        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
-    }
 
-    private LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            myLatitude = locationResult.getLastLocation().getLatitude();
-            myLogitude = locationResult.getLastLocation().getLongitude();
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-
-            Log.d("현재 위치", myLatitude + ", " + myLogitude);
-
-        }
-
-        @Override
-        public void onLocationAvailability(LocationAvailability locationAvailability) {
-            super.onLocationAvailability(locationAvailability);
-
-        }
-    };
     public class UpdateComment extends AsyncTask<String, Void, String> {
         String errorString = null;
         private String mJsonString;
@@ -617,8 +560,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
-            
-            getMyLocation();
+
+            locationProviderManager.getMyLocation();
             UpdateComment updateComment = new UpdateComment();
             updateComment.execute( "http://" + IP_ADDRESS + "/getComment.php", "");
         }
