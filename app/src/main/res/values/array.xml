@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="radius_array">
+        <item>My Comment</item>
+        <item>30m</item>
+        <item>100m</item>
+        <item>300m</item>
+        <item>500m</item>
+        <item>1km</item>
+    </string-array>
+</resources>

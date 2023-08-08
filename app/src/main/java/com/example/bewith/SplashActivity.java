@@ -134,17 +134,12 @@ public class SplashActivity extends AppCompatActivity {
                             //이름입력엑티비티 이동
                             Intent intent = new Intent(SplashActivity.this, SetNickActivity.class);
                             startActivity(intent);
-                            finish();
                         }
-                        else{
+                        else{//유니티 프로젝트 이동
                             Intent intent = new Intent(SplashActivity.this, UnityPlayerActivity.class);
                             UnityPlayer.UnitySendMessage("ButtonManager", "SetNickname",name);
                             startActivity(intent);
-                            finish();
-
                         }
-
-
                         finish();
                     }
                 })

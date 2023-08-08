@@ -27,12 +27,15 @@ import android.widget.TextView;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.bewith.R;
+import com.example.bewith.UpdatePopup;
 import com.example.bewith.databinding.ActivityMainBinding;
+import com.example.bewith.util.location.DistanceCalculator;
+import com.example.bewith.util.network.DeleteComment;
 import com.example.bewith.view.main.data.Constants;
-import com.example.bewith.javaclass.GlobalList;
 import com.example.bewith.view.main.data.CommentData;
 import com.example.bewith.listclass.MyAdapter;
 import com.example.bewith.util.location.LocationProviderManager;
+import com.example.bewith.view.main.util.map_item.MarkerCreator;
 import com.example.bewith.view.main.util.swipe_menu_list.SwipeMenuListCreator;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -40,7 +43,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 import org.json.JSONArray;
@@ -58,29 +60,17 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
     private ActivityMainBinding binding;
     private MainActivityViewModel mainActivityViewModel;
-
-    private LocationProviderManager locationProviderManager;
+    private GoogleMap mMap;
     public static double myLatitude;
     public static double myLogitude;
 
     private TextView noDataTextView;
     private SwipeMenuListView myCommentListView;
     private ListView commentListView;
+    private MyAdapter swipeMenuListAdapter;
+    private MyAdapter listAdapter;
 
-    private GoogleMap mMap;
-
-    private FloatingActionButton fb_reload;
-    private Spinner radius;
-    private ArrayList<String> radiusList = new ArrayList<>();
-    private CommentData commentData;
-
-    private MyAdapter myAdapter;
-    public static ArrayList<CommentData> mData = new ArrayList<>();//내가 만든 commnet 정보
-    public static ArrayList<CommentData> rData = new ArrayList<>();//반경 안에 있는 commnet 정보
-    public static ArrayList<CommentData> cData;//comment 정보
-
-
-    public String UUID;
+    private ArrayList<CommentData> spinnerArrayList = new ArrayList<>();
     public int radiusIndex;
     private static String IP_ADDRESS;
 
@@ -93,81 +83,80 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mainActivityViewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
         //뷰모델 적용
         binding.setViewModel(mainActivityViewModel);
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+        radiusIndex = 0;
         //서버 IP
         IP_ADDRESS = Constants.IP_ADDRESS;
         //유니티로 부터 받는 정보
         Intent intent = getIntent();
-        UUID = intent.getStringExtra("UUID");
+        Constants.UUID = intent.getStringExtra("UUID");
         myLatitude = Double.parseDouble(intent.getStringExtra("Lat"));
         myLogitude = Double.parseDouble(intent.getStringExtra("Lng"));
-        //위치 제공자 매니저 생성
-        locationProviderManager = new LocationProviderManager(getBaseContext());
 
-        noDataTextView=binding.noDataTextView;
-        myCommentListView=binding.myCommnentListView;
-        commentListView=binding.commentListView;
-
+        noDataTextView = binding.noDataTextView;
+        myCommentListView = binding.myCommnentListView;
+        commentListView = binding.commentListView;
         //땡길 수 있는 리스트뷰 설정
         myCommentListView.setMenuCreator(new SwipeMenuListCreator(getResources()).getCreator(getBaseContext()));
+
+        swipeMenuListAdapter = new MyAdapter(MainActivity.this, spinnerArrayList);//어뎁터에 어레이리스트를 붙임
+        myCommentListView.setAdapter(swipeMenuListAdapter);//땡길 수 있는 리스트를 어뎁터에 붙임
+
+        listAdapter = new MyAdapter(MainActivity.this, spinnerArrayList);//어뎁터에 어레이리스트를 붙임
+        commentListView.setAdapter(listAdapter);//리스트를 어뎁터에 붙임
+        commentListView.setVisibility(View.GONE);
+
         initListClick();
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        radiusIndex = 0;
-
-
-        cData = ((GlobalList) getApplication()).getcData();
-
-
-        createFB();//플로팅버튼 생성(go to ar)
+        initFloatButtonCLick();//플로팅버튼 생성(go to ar)
         createSpinner();//스피너 생성
 
 
-
-        //코멘트 수정후 돌아왔을 때 실행
-        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == RESULT_OK) {
-                locationProviderManager.getMyLocation();
-                UpdateComment updateComment = new UpdateComment();
-                updateComment.execute("http://" + IP_ADDRESS + "/getComment.php", "");
+        //스피너 목록에 따라 보여지는 리스트가 변경되면
+        mainActivityViewModel.getSpinnerCommentArrayListLiveData().observeInOnStart(this, new Observer<ArrayList<CommentData>>() {
+            @Override
+            public void onChanged(ArrayList<CommentData> CommentDataList) {
+                if (CommentDataList.isEmpty()) {
+                    noDataTextView.setVisibility(View.VISIBLE);//데이터 없음 표시
+                } else {
+                    noDataTextView.setVisibility(View.INVISIBLE);
+                }
+                spinnerArrayList.clear();//비우고 다시 채우기
+                for (CommentData commentData : CommentDataList) {
+                    spinnerArrayList.add(commentData);
+                }//why? notifyDataSetChanged() 얘는 friends= friendDatalist 이런식으로 하면 갱신이 안되더라
+                if (radiusIndex == 0) {
+                    swipeMenuListAdapter.notifyDataSetChanged();
+                } else {
+                    listAdapter.notifyDataSetChanged();
+                    Log.d("ssssssssssss","ssssssssssssssssssssssssssssssssssss");
+                    for(CommentData commentData: spinnerArrayList){
+                        Log.d("sssssssss",commentData.text);
+                    }
+                }
             }
         });
 
-
-
-
-        commentListView.setVisibility(View.GONE);
-        myAdapter = new MyAdapter(MainActivity.this, mData);//어뎁터에 어레이리스트를 붙임
-        myCommentListView.setAdapter(myAdapter);//리스트를 어뎁터에 붙임
-
+        mainActivityViewModel.getComment(radiusIndex);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        UpdateComment updateComment = new UpdateComment();
-        updateComment.execute("http://" + IP_ADDRESS + "/getComment.php", "");
-
+        mainActivityViewModel.getComment(radiusIndex);
     }
-
 
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {//지도가 준비되면 실행됨
         mMap = googleMap;//구글맵을 전역변수 저장
-        mainActivityViewModel.getCommentList().observeInOnStart(this, new Observer<ArrayList<CommentData>>() {//점유권을 가져와야됨
+        mainActivityViewModel.getCommentArrayListLiveData().observeInOnStart(this, new Observer<ArrayList<CommentData>>() {
             @Override
             public void onChanged(ArrayList<CommentData> CommentDataList) {
-                for(CommentData commentData: CommentDataList) {
-                    LatLng latLng = new LatLng(Double.parseDouble(commentData.latitude), Double.parseDouble(commentData.logitude));
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(latLng);
-                    markerOptions.title(commentData.text);
-                    markerOptions.snippet(commentData.time);
-
-                    mMap.addMarker(markerOptions);
+                for (CommentData commentData : CommentDataList) {
+                    //마커 생성
+                    new MarkerCreator().addMarker(mMap, commentData);
                 }
             }
         });
@@ -183,123 +172,52 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    public void createFB() {//플로팅버튼 생성
-        fb_reload = findViewById(R.id.fb_reload);
+    public void createSpinner() {
 
-        fb_reload.setOnClickListener(new View.OnClickListener() {//새로고침 버튼
-            @Override
-            public void onClick(View v) {
-                locationProviderManager.getMyLocation();
-                Log.d("현재 위치", myLatitude + ", " + myLogitude);
-                UpdateComment updateComment = new UpdateComment();
-                updateComment.execute( "http://" + IP_ADDRESS + "/getComment.php", "");
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.radius_array));
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.radiusSpinner.setAdapter(arrayAdapter);
+        binding.radiusSpinner.setSelection(radiusIndex);//초기값
 
-            }
-        });
+        initSpinnerClick();
     }
 
-    public void createSpinner() {
-        radius = (Spinner) findViewById(R.id.radius);//스피너 선언
-        radiusList.add("My Comment");
-        radiusList.add("30m");
-        radiusList.add("100m");
-        radiusList.add("300m");
-        radiusList.add("500m");
-        radiusList.add("1km");
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, radiusList);
-        adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        radius.setAdapter(adapter1);
-        radius.setSelection(radiusIndex);//초기값
-        radius.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    public void initSpinnerClick() {
+        binding.radiusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {//스피너가 선택되었을 때
                 radiusIndex = position;
-                if (position == 0) {//반경 리스트가 My Comment면
-                    if (mData.isEmpty()) {
-                        noDataTextView.setVisibility(View.VISIBLE);
-                    } else {
-                        noDataTextView.setVisibility(View.INVISIBLE);
-                    }
+                mainActivityViewModel.onSeleteSpinner(radiusIndex);
+                if (radiusIndex == 0) {//반경 리스트가 My Comment면
                     myCommentListView.setVisibility(View.VISIBLE);//땡길 수 있는 리스트를 보이게
                     commentListView.setVisibility(View.GONE);//일반 리스트를 안보이게
-                    myAdapter = new MyAdapter(MainActivity.this, mData);//어뎁터에 어레이리스트를 붙임
-                    myCommentListView.setAdapter(myAdapter);//땡길 수 있는 리스트를 어뎁터에 붙임
                 } else {//다른게 선택되면
-                   changeRadiusData();
-
-                    myAdapter = new MyAdapter(MainActivity.this, rData);//어뎁터에 어레이리스트를 붙임
-                    commentListView.setAdapter(myAdapter);//일반 리스트를 어뎁터에 붙임
-                    }
-                myAdapter.notifyDataSetChanged();//어뎁터 갱신
+                    myCommentListView.setVisibility(View.GONE);//땡길 수 있는 리스트를 안보이게
+                    commentListView.setVisibility(View.VISIBLE);//일반리스트를 보이게
                 }
+            }
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {//무시하면됨(아무 것도 선택안됬을 때)
+            public void onNothingSelected(AdapterView<?> parent) {//무시하면됨(아무 것도 선택 안됐을 때)
             }
         });
     }
 
-    public void changeRadiusData(){
-
-            int m=0;
-            rData.clear();
-            switch (radiusIndex){
-                case 1:
-                    m=30;
-                    break;
-                case 2:
-                    m=100;
-                    break;
-                case 3:
-                    m=300;
-                    break;
-                case 4:
-                    m=500;
-                    break;
-                case 5:
-                    m=1000;
-                    break;
+    public void initFloatButtonCLick() {//플로팅버튼 클릭 메소드
+        binding.reloadFbtn.setOnClickListener(new View.OnClickListener() {//새로고침 버튼
+            @Override
+            public void onClick(View v) {
+                mainActivityViewModel.getComment(radiusIndex);
             }
-
-            Location locationA = new Location("point A");//내위치
-            locationA.setLatitude(myLatitude);
-            locationA.setLongitude(myLogitude);
-
-            for(int i = 0; i<cData.size();i++){//선택된 반경 안에 있는지 거리 검사후 리스트 삽입
-                Location locationB = new Location("point B");
-
-                locationB.setLatitude(Double.parseDouble(cData.get(i).latitude));
-                locationB.setLongitude(Double.parseDouble(cData.get(i).logitude));
-
-                double distance = locationA.distanceTo(locationB);
-                if(distance<m){
-                    rData.add(cData.get(i));
-                }
-            }
-            if (rData.isEmpty()) {
-                noDataTextView.setVisibility(View.VISIBLE);
-            } else {
-                noDataTextView.setVisibility(View.INVISIBLE);
-            }
-        commentListView.setVisibility(View.VISIBLE);//일반리스트를 보이게
-        myCommentListView.setVisibility(View.GONE);//땡길 수 있는 리스트를 안보이게
-
+        });
     }
 
-    public void changeList() {//리스트뷰에 항목추가
-        mData.clear();
-        for (int i = 0; i < cData.size(); i++) {
-            if (cData.get(i).UUID.equals(UUID)) {
-                mData.add(cData.get(i));
-            }
-        }
-        myAdapter.notifyDataSetChanged();//어뎁터 갱신
-    }
-    public void initListClick(){
+    public void initListClick() {
         //전체 사용자 comment 리스트 클릭 이벤트
         commentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(rData.get(position).latitude), Double.parseDouble(rData.get(position).logitude)), mMap.getCameraPosition().zoom));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(spinnerArrayList.get(position).latitude),
+                        Double.parseDouble(spinnerArrayList.get(position).logitude)), mMap.getCameraPosition().zoom));
 
             }
         });
@@ -321,7 +239,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         myCommentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(mData.get(i).latitude), Double.parseDouble(mData.get(i).logitude)), mMap.getCameraPosition().zoom));
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(spinnerArrayList.get(i).latitude),
+                        Double.parseDouble(spinnerArrayList.get(i).logitude)), mMap.getCameraPosition().zoom));
             }
         });
         //열려있을때 메뉴 클릭 메소드
@@ -330,303 +249,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
                 switch (index) {
                     case 0://수정
-                        //Intent intent = new Intent(MainActivity.this, UpdatePopup.class);
-                        //intent.putExtra("id", mData.get(position)._id);
-                        //intent.putExtra("category", mData.get(position).category);
-                        //intent.putExtra("text", mData.get(position).text);
-                        //activityResultLauncher.launch(intent);
+                        //코멘트 수정후 돌아왔을 때 실행
+                        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+                            if (result.getResultCode() == RESULT_OK) {
+                                mainActivityViewModel.getComment(radiusIndex);
+                            }
+                        });
+                        Intent intent = new Intent(MainActivity.this, UpdatePopup.class);
+                        intent.putExtra("id", spinnerArrayList.get(position)._id);
+                        intent.putExtra("category", spinnerArrayList.get(position).category);
+                        intent.putExtra("text", spinnerArrayList.get(position).text);
+                        activityResultLauncher.launch(intent);
 
                         break;
                     case 1://삭제
+                        //동기 처리 진행
                         DeleteComment deleteComment = new DeleteComment();
-                        deleteComment.execute("http://" + IP_ADDRESS + "/deleteComment.php", Integer.toString(mData.get(position)._id));
+                        deleteComment.execute("http://" + IP_ADDRESS + "/deleteComment.php", Integer.toString(spinnerArrayList.get(position)._id));
+                        //삭제되고 난 후 진행되어야 함
+                        mainActivityViewModel.getComment(radiusIndex);
                         break;
                 }
                 return true;
             }
         });
     }
-
-    public class UpdateComment extends AsyncTask<String, Void, String> {
-        String errorString = null;
-        private String mJsonString;
-        ProgressDialog progressDialog;
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-            progressDialog = ProgressDialog.show(MainActivity.this,"Please Wait", null, true, true);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result == null){
-            }
-            else {
-                mJsonString = result;
-                showResult();
-            }
-
-        }
-        private void showResult(){
-
-            String TAG_JSON="comment";
-            String TAG_ID = "id";
-            String TAG_UUID = "UUID";
-            String TAG_time= "time";
-            String TAG_category = "category";
-            String TAG_text = "text";
-            String TAG_STR_LATITUDE = "str_latitude";
-            String TAG_STR_LONGITUDE ="str_longitude";
-
-            ((GlobalList) getApplication() ).cleancData();
-
-            try {
-                JSONObject jsonObject = new JSONObject(mJsonString);
-                JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
-
-                for(int i=0;i<jsonArray.length();i++){
-
-                    JSONObject item = jsonArray.getJSONObject(i);
-                    int id = item.getInt(TAG_ID);
-                    String UUID = item.getString(TAG_UUID);
-                    int category=0;
-                    switch (item.getString(TAG_category)){
-                        case "리뷰":
-                            category = 0;
-                            break;
-                        case "꿀팁":
-                            category = 1;
-                            break;
-                        case "기록":
-                            category = 2;
-                            break;
-
-                    }
-                    String time = item.getString(TAG_time);
-                    String text = item.getString(TAG_text);
-                    String str_latitude = item.getString(TAG_STR_LATITUDE);
-                    String str_longitude = item.getString(TAG_STR_LONGITUDE);
-
-                    ((GlobalList) getApplication() ).setcData(new CommentData(id,UUID,time,category,text,str_latitude,str_longitude));
-                }
-
-            } catch (JSONException e) {
-            }
-            //cData.clear();
-            //???????????????????????????????????????????????????????????????????????????????????????????????????????
-            cData=((GlobalList) getApplication() ).getcData();
-
-            if(radiusIndex != 0){//반경으로 설정되어 있으면
-                int m=0;
-                rData.clear();
-                switch (radiusIndex){
-                    case 1:
-                        m=30;
-                        break;
-                    case 2:
-                        m=100;
-                        break;
-                    case 3:
-                        m=300;
-                        break;
-                    case 4:
-                        m=500;
-                        break;
-                    case 5:
-                        m=1000;
-                        break;
-                }
-
-                Location locationA = new Location("point A");//내위치
-                locationA.setLatitude(myLatitude);
-                locationA.setLongitude(myLogitude);
-
-                for(int i = 0; i<cData.size();i++){//선택된 반경 안에 있는지 거리 검사후 리스트 삽입
-                    Location locationB = new Location("point B");
-
-                    locationB.setLatitude(Double.parseDouble(cData.get(i).latitude));
-                    locationB.setLongitude(Double.parseDouble(cData.get(i).logitude));
-                    double distance = locationA.distanceTo(locationB);
-                    if(distance<m){
-                        rData.add(cData.get(i));
-                    }
-                }
-                if (rData.isEmpty()) {
-                    noDataTextView.setVisibility(View.VISIBLE);
-                } else {
-                    noDataTextView.setVisibility(View.INVISIBLE);
-                }
-                commentListView.setVisibility(View.VISIBLE);//일반리스트를 보이게
-                myCommentListView.setVisibility(View.GONE);//땡길 수 있는 리스트를 안보이게
-                myAdapter = new MyAdapter(MainActivity.this, rData);//어뎁터에 어레이리스트를 붙임
-                commentListView.setAdapter(myAdapter);
-            }
-            else{//내 Comment로 설정되어 있으면
-                mData.clear();
-                for (int i = 0; i < cData.size(); i++) {//My Comment array갱신
-                    if (cData.get(i).UUID.equals(UUID)) {
-                        mData.add(cData.get(i));
-                    }
-                }
-                if (mData.isEmpty()) {
-                    noDataTextView.setVisibility(View.VISIBLE);
-                } else {
-                    noDataTextView.setVisibility(View.INVISIBLE);
-                }
-                myCommentListView.setVisibility(View.VISIBLE);//땡길 수 있는 리스트를 보이게
-                commentListView.setVisibility(View.GONE);//일반리스트를 보이게
-                myAdapter = new MyAdapter(MainActivity.this, mData);//어뎁터에 어레이리스트를 붙임
-                myCommentListView.setAdapter(myAdapter);
-            }
-            mMap.clear();
-            for(int i = 0 ; i < cData.size(); i++) {//마커찍기
-                LatLng latLng = new LatLng(Double.parseDouble(cData.get(i).latitude) ,Double.parseDouble(cData.get(i).logitude));
-                MarkerOptions markerOptions = new MarkerOptions();
-                markerOptions.position(latLng);
-                markerOptions.title(cData.get(i).text);
-                markerOptions.snippet(cData.get(i).time);
-                mMap.addMarker(markerOptions);
-            }
-            myAdapter.notifyDataSetChanged();//어뎁터 갱신
-            progressDialog.dismiss();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String serverURL = params[0];
-            String postParameters = params[1];
-
-            try {
-
-                URL url = new URL(serverURL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.connect();
-
-
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-
-                InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-                else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line;
-
-                while((line = bufferedReader.readLine()) != null){
-                    sb.append(line);
-                }
-
-                bufferedReader.close();
-
-                return sb.toString().trim();
-
-
-            } catch (Exception e) {
-
-                errorString = e.toString();
-
-                return null;
-            }
-
-        }
-    }
-    public class DeleteComment  extends AsyncTask<String, Void, String> {
-        private ProgressDialog progressDialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-
-        }
-
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-
-            locationProviderManager.getMyLocation();
-            UpdateComment updateComment = new UpdateComment();
-            updateComment.execute( "http://" + IP_ADDRESS + "/getComment.php", "");
-        }
-
-        @SuppressLint("WrongThread")
-        @Override
-        protected String doInBackground(String... params) {
-            String result;
-            String id = (String)params[1];
-
-            String serverURL = (String)params[0];
-            String postParameters = "id=" + id  ;
-
-            try {
-
-                URL url = new URL(serverURL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.connect();
-
-
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-
-                InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-                else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                while((line = bufferedReader.readLine()) != null){
-                    sb.append(line);
-                }
-
-
-                bufferedReader.close();
-
-                return sb.toString();
-
-            } catch (Exception e) {
-                return new String("Error: " + e.getMessage());
-            }
-
-        }
-    }
 }
+
+// ProgressDialog progressDialog;
+// progressDialog = ProgressDialog.show(MainActivity.this,"Please Wait", null, true, true);
+//progressDialog.dismiss();
+
+
