@@ -6,20 +6,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.example.bewith.javaclass.GlobalList;
-import com.example.bewith.listclass.CommentData;
+import com.example.bewith.util.network.GetComment;
+import com.example.bewith.view.main.data.Constants;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -37,17 +35,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class SplashActivity extends AppCompatActivity {
     private static final String TAG = SplashActivity.class.getSimpleName();
     private static final int GPS_UTIL_LOCATION_PERMISSION_REQUEST_CODE = 100;
@@ -57,14 +44,13 @@ public class SplashActivity extends AppCompatActivity {
     public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 2000L;
     public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 2000L;
 
-    private FusedLocationProviderClient fusedLocationProviderClient;
     private LocationRequest locationRequest;
     private static String IP_ADDRESS;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        IP_ADDRESS= "221.147.144.65:80";
+        IP_ADDRESS= Constants.IP_ADDRESS;
     }
 
 
@@ -133,12 +119,33 @@ public class SplashActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
                     @Override
                     public void onSuccess(LocationSettingsResponse locationSettingsResponse) {//GPS가 사용가능하면
-                        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(SplashActivity.this);
-                        if (ActivityCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(SplashActivity.this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                        //권한이 없으면 리턴
-                            return;
-                        }//위치정보 요청
-                        fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, null);
+
+                        //동기 처리 되어야함
+                        GetComment getComment = new GetComment();
+                        getComment.execute( "http://" + IP_ADDRESS + "/getComment.php", "");
+                        //동기 처리 후 진행
+
+
+                        SharedPreferences prefs = getSharedPreferences("person_name",0);
+                        String name = prefs.getString("name","");
+
+                        //인텐트 이동
+                        if(name.equals("")){//이름이 없으면
+                            //이름입력엑티비티 이동
+                            Intent intent = new Intent(SplashActivity.this, SetNickActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+                        else{
+                            Intent intent = new Intent(SplashActivity.this, UnityPlayerActivity.class);
+                            UnityPlayer.UnitySendMessage("ButtonManager", "SetNickname",name);
+                            startActivity(intent);
+                            finish();
+
+                        }
+
+
+                        finish();
                     }
                 })
                 .addOnFailureListener(SplashActivity.this, new OnFailureListener() {
@@ -172,172 +179,6 @@ public class SplashActivity extends AppCompatActivity {
             } else {
                 finish();
             }
-        }
-    }
-
-    private LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            super.onLocationResult(locationResult);
-            fusedLocationProviderClient.removeLocationUpdates(locationCallback);
-            GetComment getComment = new GetComment();
-            getComment.execute( "http://" + IP_ADDRESS + "/getComment.php", "");
-
-        }
-
-        @Override
-        public void onLocationAvailability(LocationAvailability locationAvailability) {
-            super.onLocationAvailability(locationAvailability);
-            Log.i(TAG, "onLocationAvailability - " + locationAvailability);
-        }
-    };
-    public class GetComment extends AsyncTask<String, Void, String> {
-        private Context context;
-        String errorString = null;
-        private String mJsonString;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
-            if (result == null){
-            }
-            else {
-                mJsonString = result;
-                showResult();
-            }
-
-        }
-        private void showResult(){
-
-            String TAG_JSON="comment";
-            String TAG_ID = "id";
-            String TAG_UUID = "UUID";
-            String TAG_time= "time";
-            String TAG_category = "category";
-            String TAG_text = "text";
-            String TAG_STR_LATITUDE = "str_latitude";
-            String TAG_STR_LONGITUDE ="str_longitude";
-            ((GlobalList) getApplication() ).cleancData();
-
-            try {
-                JSONObject jsonObject = new JSONObject(mJsonString);
-                JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
-                for(int i=0;i<jsonArray.length();i++){
-
-                    JSONObject item = jsonArray.getJSONObject(i);
-                    int id = item.getInt(TAG_ID);
-                    String UUID = item.getString(TAG_UUID);
-                    int category=0;
-                    switch (item.getString(TAG_category)){
-                        case "리뷰":
-                            category = 0;
-                            break;
-                        case "꿀팁":
-                            category = 1;
-                            break;
-                        case "기록":
-                            category = 2;
-                            break;
-
-                    }
-                    String time = item.getString(TAG_time);
-                    String text = item.getString(TAG_text);
-                    String str_latitude = item.getString(TAG_STR_LATITUDE);
-                    String str_longitude = item.getString(TAG_STR_LONGITUDE);
-                    ((GlobalList) getApplication() ).setcData(new CommentData(id,UUID,time,category,text,str_latitude,str_longitude));
-                }
-
-            } catch (JSONException e) {
-                Log.d(TAG, "showResult : ", e);
-            }
-            SharedPreferences prefs = getSharedPreferences("person_name",0);
-            String name = prefs.getString("name","");
-
-            //인텐트 이동
-            if(name.equals("")){//이름이 없으면
-                //이름입력엑티비티 이동
-                Intent intent = new Intent(SplashActivity.this, SetNickActivity.class);
-                startActivity(intent);
-                finish();
-            }
-            else{
-                Intent intent = new Intent(SplashActivity.this, UnityPlayerActivity.class);
-                UnityPlayer.UnitySendMessage("ButtonManager", "SetNickname",name);
-                startActivity(intent);
-                finish();
-
-            }
-
-
-            finish();
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-
-            String serverURL = params[0];
-            String postParameters = params[1];
-
-
-            try {
-
-                URL url = new URL(serverURL);
-                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-
-
-                httpURLConnection.setReadTimeout(5000);
-                httpURLConnection.setConnectTimeout(5000);
-                httpURLConnection.setRequestMethod("POST");
-                httpURLConnection.setDoInput(true);
-                httpURLConnection.connect();
-
-
-                OutputStream outputStream = httpURLConnection.getOutputStream();
-                outputStream.write(postParameters.getBytes("UTF-8"));
-                outputStream.flush();
-                outputStream.close();
-
-
-                int responseStatusCode = httpURLConnection.getResponseCode();
-                Log.d(TAG, "response code - " + responseStatusCode);
-
-                InputStream inputStream;
-                if(responseStatusCode == HttpURLConnection.HTTP_OK) {
-                    inputStream = httpURLConnection.getInputStream();
-                }
-                else{
-                    inputStream = httpURLConnection.getErrorStream();
-                }
-
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line;
-
-                while((line = bufferedReader.readLine()) != null){
-                    sb.append(line);
-                }
-
-                bufferedReader.close();
-
-                return sb.toString().trim();
-
-
-            } catch (Exception e) {
-
-                Log.d(TAG, "GetData : Error ", e);
-                errorString = e.toString();
-
-                return null;
-            }
-
         }
     }
 }

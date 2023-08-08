@@ -5,6 +5,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
@@ -29,7 +30,7 @@ import com.example.bewith.R;
 import com.example.bewith.databinding.ActivityMainBinding;
 import com.example.bewith.view.main.data.Constants;
 import com.example.bewith.javaclass.GlobalList;
-import com.example.bewith.listclass.CommentData;
+import com.example.bewith.view.main.data.CommentData;
 import com.example.bewith.listclass.MyAdapter;
 import com.example.bewith.util.location.LocationProviderManager;
 import com.example.bewith.view.main.util.swipe_menu_list.SwipeMenuListCreator;
@@ -119,8 +120,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         cData = ((GlobalList) getApplication()).getcData();
 
-        createFB();//플로팅버튼 생성(go to ar)
 
+        createFB();//플로팅버튼 생성(go to ar)
         createSpinner();//스피너 생성
 
 
@@ -156,25 +157,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(final GoogleMap googleMap) {//지도가 준비되면 실행됨
         mMap = googleMap;//구글맵을 전역변수 저장
+        mainActivityViewModel.getCommentList().observeInOnStart(this, new Observer<ArrayList<CommentData>>() {//점유권을 가져와야됨
+            @Override
+            public void onChanged(ArrayList<CommentData> CommentDataList) {
+                for(CommentData commentData: CommentDataList) {
+                    LatLng latLng = new LatLng(Double.parseDouble(commentData.latitude), Double.parseDouble(commentData.logitude));
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(latLng);
+                    markerOptions.title(commentData.text);
+                    markerOptions.snippet(commentData.time);
 
-        for (int i = 0; i < cData.size(); i++) {//마커찍기
-            LatLng latLng = new LatLng(Double.parseDouble(cData.get(i).latitude), Double.parseDouble(cData.get(i).logitude));
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            markerOptions.title(cData.get(i).text);
-            markerOptions.snippet(cData.get(i).time);
+                    mMap.addMarker(markerOptions);
+                }
+            }
+        });
 
-            mMap.addMarker(markerOptions);
-        }
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         mMap.setMyLocationEnabled(true);
         LatLng myLocation = new LatLng(myLatitude, myLogitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 18));
-
-
 
     }
 

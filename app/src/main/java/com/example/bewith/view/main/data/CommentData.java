@@ -1,4 +1,4 @@
-package com.example.bewith.listclass;
+package com.example.bewith.view.main.data;
 
 public class CommentData {
     public int _id;
