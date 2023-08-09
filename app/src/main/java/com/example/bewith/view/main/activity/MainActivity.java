@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     public static double myLatitude;
     public static double myLogitude;
-
+    private ActivityResultLauncher<Intent> activityResultLauncher;
     private TextView noDataTextView;
     private SwipeMenuListView myCommentListView;
     private ListView commentListView;
@@ -130,15 +130,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     swipeMenuListAdapter.notifyDataSetChanged();
                 } else {
                     listAdapter.notifyDataSetChanged();
-                    Log.d("ssssssssssss","ssssssssssssssssssssssssssssssssssss");
-                    for(CommentData commentData: spinnerArrayList){
-                        Log.d("sssssssss",commentData.text);
-                    }
                 }
             }
         });
-
-        mainActivityViewModel.getComment(radiusIndex);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                mainActivityViewModel.getComment(radiusIndex);
+            }
+        });
     }
 
     @Override
@@ -150,10 +149,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {//지도가 준비되면 실행됨
+        mainActivityViewModel.getComment(radiusIndex);
         mMap = googleMap;//구글맵을 전역변수 저장
         mainActivityViewModel.getCommentArrayListLiveData().observeInOnStart(this, new Observer<ArrayList<CommentData>>() {
             @Override
             public void onChanged(ArrayList<CommentData> CommentDataList) {
+                mMap.clear();
                 for (CommentData commentData : CommentDataList) {
                     //마커 생성
                     new MarkerCreator().addMarker(mMap, commentData);
@@ -250,17 +251,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 switch (index) {
                     case 0://수정
                         //코멘트 수정후 돌아왔을 때 실행
-                        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-                            if (result.getResultCode() == RESULT_OK) {
-                                mainActivityViewModel.getComment(radiusIndex);
-                            }
-                        });
                         Intent intent = new Intent(MainActivity.this, UpdatePopup.class);
                         intent.putExtra("id", spinnerArrayList.get(position)._id);
                         intent.putExtra("category", spinnerArrayList.get(position).category);
                         intent.putExtra("text", spinnerArrayList.get(position).text);
                         activityResultLauncher.launch(intent);
-
                         break;
                     case 1://삭제
                         //동기 처리 진행
