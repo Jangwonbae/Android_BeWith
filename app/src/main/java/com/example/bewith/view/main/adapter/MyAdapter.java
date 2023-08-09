@@ -40,7 +40,7 @@ public class MyAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         if (view ==null){
             LayoutInflater inflater = LayoutInflater.from(ctx);
-            view = inflater.inflate(R.layout.commentlist,viewGroup,false);
+            view = inflater.inflate(R.layout.comment_list,viewGroup,false);
         }
 
         TextView text1 = (TextView)view.findViewById(R.id.categoryText);

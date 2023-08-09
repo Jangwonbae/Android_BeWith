@@ -1,6 +1,5 @@
-package com.example.bewith;
+package com.example.bewith.view.modify_reply;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -11,6 +10,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.bewith.R;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,7 +19,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class UpdateReplyActivity extends AppCompatActivity {
+public class ModifyReplyActivity extends AppCompatActivity {
     private EditText editText;
     private String id_;
     private String text;
@@ -27,7 +28,7 @@ public class UpdateReplyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_reply);
+        setContentView(R.layout.activity_modify_reply);
         Intent intent = getIntent();
         id_=intent.getStringExtra("id");
         text=intent.getStringExtra("text");
@@ -44,7 +45,7 @@ public class UpdateReplyActivity extends AppCompatActivity {
             case R.id.okBtn://확인버튼 클릭시
                 text = editText.getText().toString().trim();//텍스트 내용
                 if (text.equals("")) {
-                    Toast.makeText(UpdateReplyActivity.this, "내용을 입력하세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ModifyReplyActivity.this, "내용을 입력하세요.", Toast.LENGTH_SHORT).show();
                 } else {
 
                     ModifyReply modifyReply = new ModifyReply();//내 comment 내용 서버에 전송
@@ -64,7 +65,7 @@ public class UpdateReplyActivity extends AppCompatActivity {
         protected void onPreExecute() {//작업 시작할때
             super.onPreExecute();
 
-            progressDialog = ProgressDialog.show(UpdateReplyActivity.this,"Please Wait", null, true, true);
+            progressDialog = ProgressDialog.show(ModifyReplyActivity.this,"Please Wait", null, true, true);
 
         }
 

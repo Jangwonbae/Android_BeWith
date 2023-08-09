@@ -1,4 +1,4 @@
-package com.example.bewith;
+package com.example.bewith.view.search.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,10 +12,11 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
-import com.example.bewith.listclass.ClassData;
-import com.example.bewith.listclass.ProfessorData;
-import com.example.bewith.listclass.SearchAdapter;
-import com.example.bewith.listclass.SearchLabAdapter;
+import com.example.bewith.R;
+import com.example.bewith.view.search.data.ClassData;
+import com.example.bewith.view.search.data.ProfessorData;
+import com.example.bewith.view.search.adapter.SearchAdapter;
+import com.example.bewith.view.search.adapter.SearchLabAdapter;
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 

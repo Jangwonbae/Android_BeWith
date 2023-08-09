@@ -1,4 +1,4 @@
-package com.example.bewith;
+package com.example.bewith.view.search_map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -10,11 +10,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.EditText;
-import android.widget.SearchView;
-import android.widget.Toast;
 
-import com.example.bewith.listclass.ClassData;
+import com.example.bewith.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -25,15 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Map;
-
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class SearchMapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private String where;
@@ -41,7 +30,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_search_map);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -191,7 +180,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         marker.showInfoWindow();
-        AlertDialog.Builder ad = new AlertDialog.Builder(MapActivity.this);
+        AlertDialog.Builder ad = new AlertDialog.Builder(SearchMapActivity.this);
         ad.setTitle("길안내");
         ad.setMessage(marker.getTitle() +"(으)로 AR네이게이션을 실행합니다.");
 
@@ -204,7 +193,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Intent intent = new Intent(MapActivity.this, UnityPlayerActivity.class);
+                Intent intent = new Intent(SearchMapActivity.this, UnityPlayerActivity.class);
                 UnityPlayer.UnitySendMessage("ButtonManager", "StartRoute", marker.getTitle());
                 startActivity(intent);
                 dialog.dismiss();

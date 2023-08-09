@@ -22,10 +22,10 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.bewith.R;
-import com.example.bewith.UpdateReplyActivity;
+import com.example.bewith.view.modify_reply.ModifyReplyActivity;
 import com.example.bewith.databinding.ActivityCommunityBinding;
 import com.example.bewith.view.community.activity.fragment.ExampleBottomSheetDialog;
-import com.example.bewith.listclass.ReplyAdapter;
+import com.example.bewith.view.community.adapter.ReplyAdapter;
 import com.example.bewith.view.community.data.LikeData;
 import com.example.bewith.view.community.data.ReplyData;
 import java.util.ArrayList;
@@ -196,7 +196,7 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
     public void onButtonClicked(int position) {
         switch (position) {
             case 0://수정
-                Intent intent = new Intent(CommunityActivity.this, UpdateReplyActivity.class);
+                Intent intent = new Intent(CommunityActivity.this, ModifyReplyActivity.class);
                 intent.putExtra("id", Integer.toString(replyDataArrayList.get(selectIndex).id));
                 intent.putExtra("text", replyDataArrayList.get(selectIndex).ReplyText);
                 activityResultLauncher.launch(intent);

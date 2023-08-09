@@ -1,4 +1,4 @@
-package com.example.bewith.listclass;
+package com.example.bewith.view.search.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.bewith.R;
+import com.example.bewith.view.search.data.ClassData;
 
 import java.util.ArrayList;
 

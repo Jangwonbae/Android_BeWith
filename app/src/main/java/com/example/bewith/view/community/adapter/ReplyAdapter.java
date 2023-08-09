@@ -1,4 +1,4 @@
-package com.example.bewith.listclass;
+package com.example.bewith.view.community.adapter;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -1,4 +1,4 @@
-package com.example.bewith;
+package com.example.bewith.view.splash;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -16,7 +16,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.example.bewith.util.network.comment.GetComment;
+import com.example.bewith.R;
+import com.example.bewith.view.set_nick.SetNickActivity;
 import com.example.bewith.data.Constants;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
@@ -115,12 +116,6 @@ public class SplashActivity extends AppCompatActivity {
                 .addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
                     @Override
                     public void onSuccess(LocationSettingsResponse locationSettingsResponse) {//GPS가 사용가능하면
-
-                        //동기 처리 되어야함
-                        GetComment getComment = new GetComment();
-                        getComment.execute( "http://" + IP_ADDRESS + "/getComment.php", "");
-                        //동기 처리 후 진행
-
 
                         SharedPreferences prefs = getSharedPreferences("person_name",0);
                         String name = prefs.getString("name","");

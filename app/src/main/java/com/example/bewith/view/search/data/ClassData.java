@@ -1,4 +1,4 @@
-package com.example.bewith.listclass;
+package com.example.bewith.view.search.data;
 
 public class ClassData {
     public String department;
