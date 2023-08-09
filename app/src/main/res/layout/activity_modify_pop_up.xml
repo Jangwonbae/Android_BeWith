@@ -29,13 +29,13 @@
         android:layout_height="wrap_content">
 
         <Spinner
-            android:id="@+id/category"
+            android:id="@+id/category_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
 
         <EditText
-            android:id="@+id/edit_text"
+            android:id="@+id/contents_edit_text"
             android:layout_marginTop="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
-            android:id="@+id/okBtn"
+            android:id="@+id/ok_btn"
             android:text="확인"
             android:textSize="15sp"
             android:textColor="@color/black"
@@ -63,9 +63,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="mOnClose"/>
+            />
         <Button
-            android:id="@+id/noBtn"
+            android:id="@+id/no_btn"
             android:text="취소"
             android:textSize="15sp"
             android:textColor="@color/black"
@@ -74,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:onClick="mOnClose"/>
+            />
     </LinearLayout>
     <!--// 닫기 버튼 -->
 </LinearLayout>

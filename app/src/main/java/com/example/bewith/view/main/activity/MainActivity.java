@@ -9,32 +9,24 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.bewith.R;
-import com.example.bewith.UpdatePopup;
+import com.example.bewith.view.modify_pop_up.ModifyPopUpActivity;
 import com.example.bewith.databinding.ActivityMainBinding;
-import com.example.bewith.util.location.DistanceCalculator;
 import com.example.bewith.util.network.DeleteComment;
 import com.example.bewith.view.main.data.Constants;
 import com.example.bewith.view.main.data.CommentData;
 import com.example.bewith.listclass.MyAdapter;
-import com.example.bewith.util.location.LocationProviderManager;
 import com.example.bewith.view.main.util.map_item.MarkerCreator;
 import com.example.bewith.view.main.util.swipe_menu_list.SwipeMenuListCreator;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,19 +34,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -251,7 +232,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 switch (index) {
                     case 0://수정
                         //코멘트 수정후 돌아왔을 때 실행
-                        Intent intent = new Intent(MainActivity.this, UpdatePopup.class);
+                        Intent intent = new Intent(MainActivity.this, ModifyPopUpActivity.class);
                         intent.putExtra("id", spinnerArrayList.get(position)._id);
                         intent.putExtra("category", spinnerArrayList.get(position).category);
                         intent.putExtra("text", spinnerArrayList.get(position).text);

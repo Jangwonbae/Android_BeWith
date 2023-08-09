@@ -30,7 +30,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -50,16 +49,12 @@
             android:name=".view.main.activity.MainActivity"
             android:exported="true" />
         <activity
-            android:name=".UpdatePopup"
+            android:name=".view.modify_pop_up.ModifyPopUpActivity"
             android:exported="true"
             android:theme="@style/AlertDialog" />
         <activity
             android:name=".SplashActivity"
             android:exported="true" />
-        <activity
-            android:name=".Popup"
-            android:exported="true"
-            android:theme="@style/AlertDialog" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="category_array">
+        <item>리뷰</item>
+        <item>꿀팁</item>
+        <item>기록</item>
+    </string-array>
     <string-array name="radius_array">
         <item>My Comment</item>
         <item>30m</item>
