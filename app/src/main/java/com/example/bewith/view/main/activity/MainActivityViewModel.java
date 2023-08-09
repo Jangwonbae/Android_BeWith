@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel;
 
 import com.example.bewith.util.location.DistanceCalculator;
 import com.example.bewith.view.main.data.CommentData;
-import com.example.bewith.util.network.GetComment;
-import com.example.bewith.view.main.data.Constants;
+import com.example.bewith.util.network.comment.GetComment;
+import com.example.bewith.data.Constants;
 import com.google.android.gms.maps.model.LatLng;
 import com.rugovit.eventlivedata.MutableEventLiveData;
 

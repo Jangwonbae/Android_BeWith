@@ -1,4 +1,4 @@
-package com.example.bewith.listclass;
+package com.example.bewith.view.community.data;
 
 public class ReplyData{
     public int id;

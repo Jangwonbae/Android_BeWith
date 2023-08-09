@@ -16,15 +16,11 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 
-import com.example.bewith.util.network.GetComment;
-import com.example.bewith.view.main.data.Constants;
+import com.example.bewith.util.network.comment.GetComment;
+import com.example.bewith.data.Constants;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationAvailability;
-import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;

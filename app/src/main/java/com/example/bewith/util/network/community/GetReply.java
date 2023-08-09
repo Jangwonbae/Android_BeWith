@@ -1,10 +1,12 @@
-package com.example.bewith.util.network;
+package com.example.bewith.util.network.community;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
-import android.util.Log;
 
-import com.example.bewith.view.main.data.CommentData;
-import com.example.bewith.view.main.data.Constants;
+import com.example.bewith.data.Constants;
+import com.example.bewith.view.community.activity.CommunityActivity;
+import com.example.bewith.view.community.activity.CommunityActivityViewModel;
+import com.example.bewith.view.community.data.ReplyData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,82 +19,61 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class GetComment extends AsyncTask<String, Void, String> {
-    private static final String TAG = "GetComment";
+public class GetReply extends AsyncTask<String, Void, String> {
     String errorString = null;
     private String mJsonString;
 
     @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        if (result == null){
-        }
-        else {
+        if (result == null) {
+        } else {
             mJsonString = result;
             showResult();
         }
 
     }
-    private void showResult(){
 
-        String TAG_JSON="comment";
+    private void showResult() {
+
+        String TAG_JSON = "reply";
         String TAG_ID = "id";
+        String TAG_ReplyID = "replyId";
         String TAG_UUID = "UUID";
-        String TAG_time= "time";
-        String TAG_category = "category";
+        String TAG_time = "time";
+        String TAG_nickname = "nickname";
         String TAG_text = "text";
-        String TAG_STR_LATITUDE = "str_latitude";
-        String TAG_STR_LONGITUDE ="str_longitude";
-
-        Constants.commnentDataArrayList.clear();
 
 
         try {
             JSONObject jsonObject = new JSONObject(mJsonString);
             JSONArray jsonArray = jsonObject.getJSONArray(TAG_JSON);
-            for(int i=0;i<jsonArray.length();i++){
+            Constants.replyDataArrayList.clear();
 
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject item = jsonArray.getJSONObject(i);
-                int id = item.getInt(TAG_ID);
-                String UUID = item.getString(TAG_UUID);
-                int category=0;
-                switch (item.getString(TAG_category)){
-                    case "리뷰":
-                        category = 0;
-                        break;
-                    case "꿀팁":
-                        category = 1;
-                        break;
-                    case "기록":
-                        category = 2;
-                        break;
-
-                }
-                String time = item.getString(TAG_time);
-                String text = item.getString(TAG_text);
-                String str_latitude = item.getString(TAG_STR_LATITUDE);
-                String str_longitude = item.getString(TAG_STR_LONGITUDE);
-
-                Constants.commnentDataArrayList.add(new CommentData(id,UUID,time,category,text,str_latitude,str_longitude));
+                Constants.replyDataArrayList.add(new ReplyData(item.getInt(TAG_ID), item.getInt(TAG_ReplyID), item.getString(TAG_UUID), item.getString(TAG_time),
+                        item.getString(TAG_nickname), item.getString(TAG_text)));
 
             }
 
+
+
         } catch (JSONException e) {
-            Log.d(TAG, "showResult : ", e);
         }
+
+
     }
+
 
     @Override
     protected String doInBackground(String... params) {
 
-        String serverURL = params[0];
-        String postParameters = params[1];
+        String replyId = (String) params[1];
 
+
+        String serverURL = (String) params[0];
+        String postParameters = "replyId=" + replyId;
 
         try {
 
@@ -114,24 +95,20 @@ public class GetComment extends AsyncTask<String, Void, String> {
 
 
             int responseStatusCode = httpURLConnection.getResponseCode();
-            Log.d(TAG, "response code - " + responseStatusCode);
 
             InputStream inputStream;
-            if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+            if (responseStatusCode == HttpURLConnection.HTTP_OK) {
                 inputStream = httpURLConnection.getInputStream();
-            }
-            else{
+            } else {
                 inputStream = httpURLConnection.getErrorStream();
             }
-
-
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             StringBuilder sb = new StringBuilder();
             String line;
 
-            while((line = bufferedReader.readLine()) != null){
+            while ((line = bufferedReader.readLine()) != null) {
                 sb.append(line);
             }
 
@@ -142,7 +119,6 @@ public class GetComment extends AsyncTask<String, Void, String> {
 
         } catch (Exception e) {
 
-            Log.d(TAG, "GetData : Error ", e);
             errorString = e.toString();
 
             return null;

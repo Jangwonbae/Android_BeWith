@@ -5,9 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -15,12 +13,9 @@ import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.bewith.listclass.ClassData;
-import com.example.bewith.listclass.MyAdapter;
 import com.example.bewith.listclass.ProfessorData;
 import com.example.bewith.listclass.SearchAdapter;
 import com.example.bewith.listclass.SearchLabAdapter;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.model.LatLng;
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 
@@ -28,10 +23,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class SearchActivity extends AppCompatActivity {

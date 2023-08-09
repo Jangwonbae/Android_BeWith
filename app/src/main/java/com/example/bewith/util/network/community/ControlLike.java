@@ -1,7 +1,5 @@
-package com.example.bewith.util.network;
+package com.example.bewith.util.network.community;
 
-import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -11,16 +9,18 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class DeleteComment  extends AsyncTask<String, Void, String> {
+public class ControlLike extends AsyncTask<String, Void, String> {
 
-    @SuppressLint("WrongThread")
     @Override
     protected String doInBackground(String... params) {
-        String result;
-        String id = (String)params[1];
 
-        String serverURL = (String)params[0];
-        String postParameters = "id=" + id  ;
+        String replyId = (String) params[1];
+        String UUID = (String) params[2];
+
+
+        String serverURL = (String) params[0];
+        String postParameters = "replyId=" + replyId + "&UUID=" + UUID;
+
 
         try {
 
@@ -43,10 +43,9 @@ public class DeleteComment  extends AsyncTask<String, Void, String> {
             int responseStatusCode = httpURLConnection.getResponseCode();
 
             InputStream inputStream;
-            if(responseStatusCode == HttpURLConnection.HTTP_OK) {
+            if (responseStatusCode == HttpURLConnection.HTTP_OK) {
                 inputStream = httpURLConnection.getInputStream();
-            }
-            else{
+            } else {
                 inputStream = httpURLConnection.getErrorStream();
             }
 
@@ -57,16 +56,20 @@ public class DeleteComment  extends AsyncTask<String, Void, String> {
             StringBuilder sb = new StringBuilder();
             String line = null;
 
-            while((line = bufferedReader.readLine()) != null){
+            while ((line = bufferedReader.readLine()) != null) {
                 sb.append(line);
             }
 
 
             bufferedReader.close();
 
+
             return sb.toString();
 
+
         } catch (Exception e) {
+
+
             return new String("Error: " + e.getMessage());
         }
 

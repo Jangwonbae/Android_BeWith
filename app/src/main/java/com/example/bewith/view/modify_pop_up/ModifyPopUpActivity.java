@@ -8,14 +8,11 @@ import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.example.bewith.R;
 import com.example.bewith.databinding.ActivityModifyPopUpBinding;
-import com.example.bewith.util.network.ModifyComment;
-import com.example.bewith.view.main.data.Constants;
-import java.util.ArrayList;
+import com.example.bewith.util.network.comment.ModifyComment;
+import com.example.bewith.data.Constants;
 
 public class ModifyPopUpActivity extends Activity {
     private ActivityModifyPopUpBinding binding;

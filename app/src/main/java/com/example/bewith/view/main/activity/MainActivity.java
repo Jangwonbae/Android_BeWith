@@ -23,10 +23,10 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.bewith.R;
 import com.example.bewith.view.modify_pop_up.ModifyPopUpActivity;
 import com.example.bewith.databinding.ActivityMainBinding;
-import com.example.bewith.util.network.DeleteComment;
-import com.example.bewith.view.main.data.Constants;
+import com.example.bewith.util.network.comment.DeleteComment;
+import com.example.bewith.data.Constants;
 import com.example.bewith.view.main.data.CommentData;
-import com.example.bewith.listclass.MyAdapter;
+import com.example.bewith.view.main.adapter.MyAdapter;
 import com.example.bewith.view.main.util.map_item.MarkerCreator;
 import com.example.bewith.view.main.util.swipe_menu_list.SwipeMenuListCreator;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -92,33 +92,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initListClick();
         initFloatButtonCLick();//플로팅버튼 생성(go to ar)
         createSpinner();//스피너 생성
+        initObserver();
+        initActivityResult();
 
-
-        //스피너 목록에 따라 보여지는 리스트가 변경되면
-        mainActivityViewModel.getSpinnerCommentArrayListLiveData().observeInOnStart(this, new Observer<ArrayList<CommentData>>() {
-            @Override
-            public void onChanged(ArrayList<CommentData> CommentDataList) {
-                if (CommentDataList.isEmpty()) {
-                    noDataTextView.setVisibility(View.VISIBLE);//데이터 없음 표시
-                } else {
-                    noDataTextView.setVisibility(View.INVISIBLE);
-                }
-                spinnerArrayList.clear();//비우고 다시 채우기
-                for (CommentData commentData : CommentDataList) {
-                    spinnerArrayList.add(commentData);
-                }//why? notifyDataSetChanged() 얘는 friends= friendDatalist 이런식으로 하면 갱신이 안되더라
-                if (radiusIndex == 0) {
-                    swipeMenuListAdapter.notifyDataSetChanged();
-                } else {
-                    listAdapter.notifyDataSetChanged();
-                }
-            }
-        });
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == RESULT_OK) {
-                mainActivityViewModel.getComment(radiusIndex);
-            }
-        });
     }
 
     @Override
@@ -247,6 +223,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         break;
                 }
                 return true;
+            }
+        });
+    }
+    public void initObserver(){
+        //스피너 목록에 따라 보여지는 리스트가 변경되면
+        mainActivityViewModel.getSpinnerCommentArrayListLiveData().observeInOnStart(this, new Observer<ArrayList<CommentData>>() {
+            @Override
+            public void onChanged(ArrayList<CommentData> CommentDataList) {
+                if (CommentDataList.isEmpty()) {
+                    noDataTextView.setVisibility(View.VISIBLE);//데이터 없음 표시
+                } else {
+                    noDataTextView.setVisibility(View.INVISIBLE);
+                }
+                spinnerArrayList.clear();//비우고 다시 채우기
+                for (CommentData commentData : CommentDataList) {
+                    spinnerArrayList.add(commentData);
+                }//why? notifyDataSetChanged() 얘는 friends= friendDatalist 이런식으로 하면 갱신이 안되더라
+                if (radiusIndex == 0) {
+                    swipeMenuListAdapter.notifyDataSetChanged();
+                } else {
+                    listAdapter.notifyDataSetChanged();
+                }
+            }
+        });
+    }
+    public void initActivityResult(){
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if (result.getResultCode() == RESULT_OK) {
+                mainActivityViewModel.getComment(radiusIndex);
             }
         });
     }

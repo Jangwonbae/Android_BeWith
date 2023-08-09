@@ -1,4 +1,4 @@
-package com.example.bewith.listclass;
+package com.example.bewith.view.main.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;

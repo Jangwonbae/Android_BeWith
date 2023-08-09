@@ -1,5 +1,6 @@
-package com.example.bewith.util.network;
+package com.example.bewith.util.network.comment;
 
+import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -9,18 +10,16 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class ModifyComment extends AsyncTask<String, Void, String> {
+public class DeleteComment  extends AsyncTask<String, Void, String> {
 
-
+    @SuppressLint("WrongThread")
     @Override
     protected String doInBackground(String... params) {
-
+        String result;
         String id = (String)params[1];
-        String category = (String)params[2];
-        String text = (String)params[3];
 
         String serverURL = (String)params[0];
-        String postParameters = "id=" + id + "&category=" + category + "&text=" + text;
+        String postParameters = "id=" + id  ;
 
         try {
 
@@ -63,8 +62,8 @@ public class ModifyComment extends AsyncTask<String, Void, String> {
 
 
             bufferedReader.close();
-            return sb.toString();
 
+            return sb.toString();
 
         } catch (Exception e) {
             return new String("Error: " + e.getMessage());

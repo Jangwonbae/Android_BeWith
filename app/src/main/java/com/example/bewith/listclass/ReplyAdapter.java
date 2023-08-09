@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.bewith.R;
+import com.example.bewith.view.community.data.ReplyData;
 
 import java.util.ArrayList;
 
