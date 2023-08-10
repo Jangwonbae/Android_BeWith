@@ -13,4 +13,13 @@
         <item>500m</item>
         <item>1km</item>
     </string-array>
+    <string-array name="office_array">
+        <item>이공관</item>
+        <item>경영관</item>
+        <item>교양관</item>
+        <item>인문사회관</item>
+        <item>예술관</item>
+        <item>예술대실습관</item>
+        <item>웨슬리관</item>
+    </string-array>
 </resources>

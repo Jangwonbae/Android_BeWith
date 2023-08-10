@@ -1,4 +1,4 @@
-package com.example.bewith.view.search_map;
+package com.example.bewith.view.search_map.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -45,7 +45,7 @@ public class SearchMapActivity extends AppCompatActivity implements OnMapReadyCa
     public void onMapReady(final GoogleMap googleMap) {
 
         mMap = googleMap;
-        for(OfficeData officeData : OfficeArrayListClass.officeDataArrayList){
+        for(OfficeData officeData : OfficeArrayListClass.officeDataArrayList){//마커 생성
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(officeData.getOfficeLatLng());
             String markerTitle;

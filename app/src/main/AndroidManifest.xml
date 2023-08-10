@@ -43,7 +43,7 @@
             android:name=".view.search.activity.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".view.search_map.SearchMapActivity"
+            android:name=".view.search_map.activity.SearchMapActivity"
             android:exported="false" />
         <activity
             android:name=".view.main.activity.MainActivity"
