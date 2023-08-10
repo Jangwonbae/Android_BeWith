@@ -10,21 +10,22 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bewith.R;
+import com.example.bewith.databinding.ActivitySetNickBinding;
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 
 public class SetNickActivity extends AppCompatActivity {
-    private EditText nameEdit;
+    private ActivitySetNickBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_set_nick);
-
-        nameEdit = (EditText)findViewById(R.id.myName);
+        binding= ActivitySetNickBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        initButtonClick();
     }
-    public void mOnClick(View v){
-        String name = nameEdit.getText().toString();
+    public void initButtonClick(){
+        String name = binding.setNameEditText.getText().toString();
         if(name.trim().equals("")){
             Toast.makeText(this, "AR SNS에서 사용 할 닉네임입니다.", Toast.LENGTH_SHORT).show();
         }
@@ -38,5 +39,8 @@ public class SetNickActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+    }
+    public void mOnClick(View v){
+
     }
 }

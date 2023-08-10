@@ -13,7 +13,7 @@
        android:layout_gravity="center"
         android:layout_margin="80dp"/>
     <EditText
-        android:id="@+id/myName"
+        android:id="@+id/set_name_edit_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="닉네임을 입력하세요."
