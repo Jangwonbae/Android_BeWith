@@ -43,6 +43,8 @@ public class ModifyPopUpActivity extends Activity {
         createCategorySpinner();//카테고리 스피너 생성
         initButtonClick();//버튼 클릭 리스너
     }
+
+
     public void createCategorySpinner(){//카테고리 스피너 생성
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.category_array));
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
