@@ -42,12 +42,11 @@ public class SplashActivity extends AppCompatActivity {
     public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 2000L;
 
     private LocationRequest locationRequest;
-    private static String IP_ADDRESS;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        IP_ADDRESS= Constants.IP_ADDRESS;
     }
 
 

@@ -12,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 
 import com.example.bewith.R;
+import com.example.bewith.view.search_map.data.OfficeArrayListClass;
+import com.example.bewith.view.search_map.data.OfficeData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -31,8 +33,7 @@ public class SearchMapActivity extends AppCompatActivity implements OnMapReadyCa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_map);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
 
@@ -44,127 +45,20 @@ public class SearchMapActivity extends AppCompatActivity implements OnMapReadyCa
     public void onMapReady(final GoogleMap googleMap) {
 
         mMap = googleMap;
-        if(where.equals("office")){
+        for(OfficeData officeData : OfficeArrayListClass.officeDataArrayList){
             MarkerOptions markerOptions = new MarkerOptions();
-
-            markerOptions.position(new LatLng(37.21224090090654
-                    ,
-                    126.95174643583726));
-            markerOptions.title("학생회관");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(37.2123494466835,126.95235696655));
-            markerOptions.title("교양관");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-                    37.21299552053209,
-                    126.95243606412339));
-            markerOptions.title("도서관");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-                    37.21246154822673,
-                    126.95073282276422));
-            markerOptions.title("웨슬리관");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-
-                    37.211905,
-                    126.953162));
-            markerOptions.title("이공관");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-                    37.211520707321014,
-                    126.95255126155581));
-            markerOptions.title("예술관");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-                    37.21307062987013,
-                    126.95343912201486));
-            markerOptions.title("경영관");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-                    37.21392024503899,
-                    126.95375294803421));
-            markerOptions.title("인문사회관");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-                    37.21392024503899,
-                    126.95375294803421));
-            markerOptions.title("인문사회관");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-
-                    37.212571,
-                    126.953686));
-            markerOptions.title("예술대실습관");
+            markerOptions.position(officeData.getOfficeLatLng());
+            String markerTitle;
+            if(where.equals("office")){
+                markerTitle=officeData.getOfficeName();
+            }
+            else{
+                markerTitle=officeData.getOfficeName()+" 화장실";
+            }
+            markerOptions.title(markerTitle);
             mMap.addMarker(markerOptions);
         }
-        else if(where.equals("toilet")){
-            MarkerOptions markerOptions = new MarkerOptions();
 
-            markerOptions.position(new LatLng(37.21224090090654,
-                    126.95174643583726));
-            markerOptions.title("학생회관 화장실");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(37.2123494466835,126.95235696655));
-            markerOptions.title("교양관 화장실");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-                    37.21299552053209,
-                    126.95243606412339));
-            markerOptions.title("도서관 화장실");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-                    37.21246154822673,
-                    126.95073282276422));
-            markerOptions.title("웨슬리관 화장실");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-
-                    37.211905,
-                    126.953162));
-            markerOptions.title("이공관 화장실");
-            mMap.addMarker(markerOptions);
-
-            markerOptions.position(new LatLng(
-
-                    37.212571,
-                    126.953686));
-            markerOptions.title("예술대실습관 화장실");
-            mMap.addMarker(markerOptions);
-
-
-            markerOptions.position(new LatLng(
-                    37.21392024503899,
-                    126.95375294803421
-            ));
-            markerOptions.title("인문사회관 화장실");
-            mMap.addMarker(markerOptions);
-
-
-
-            markerOptions.position(new LatLng(
-
-
-                    37.21307062987013,
-                    126.95343912201486));
-            markerOptions.title("경영관 화장실");
-            mMap.addMarker(markerOptions);
-
-
-        }
         mMap.setOnMarkerClickListener(this);
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
