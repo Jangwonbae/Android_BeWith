@@ -60,19 +60,7 @@ public class GetComment extends AsyncTask<String, Void, String> {
                 JSONObject item = jsonArray.getJSONObject(i);
                 int id = item.getInt(TAG_ID);
                 String UUID = item.getString(TAG_UUID);
-                int category=0;
-                switch (item.getString(TAG_category)){
-                    case "리뷰":
-                        category = 0;
-                        break;
-                    case "꿀팁":
-                        category = 1;
-                        break;
-                    case "기록":
-                        category = 2;
-                        break;
-
-                }
+                String category = item.getString(TAG_category);
                 String time = item.getString(TAG_time);
                 String text = item.getString(TAG_text);
                 String str_latitude = item.getString(TAG_STR_LATITUDE);

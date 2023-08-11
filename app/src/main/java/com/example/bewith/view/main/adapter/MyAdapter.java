@@ -45,18 +45,8 @@ public class MyAdapter extends BaseAdapter {
 
         TextView text1 = (TextView)view.findViewById(R.id.categoryText);
         TextView text2 = (TextView)view.findViewById(R.id.contentsText);
-        switch (data.get(i).category) {
-            case 0:
-                text = "리뷰";
-                break;
-            case 1:
-                text = "꿀팁";
-                break;
-            case 2:
-                text = "기록";
-                break;
-        }
-        text1.setText(text);
+
+        text1.setText(data.get(i).category);
         text2.setText(data.get(i).text);
 
         return view;
