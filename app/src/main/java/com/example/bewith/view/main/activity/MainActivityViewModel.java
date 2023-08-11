@@ -5,15 +5,24 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bewith.util.location.DistanceCalculator;
+import com.example.bewith.util.network.retrofit_comment.get_comment.RetrofitGetCommentInterface;
+import com.example.bewith.util.network.retrofit_comment.get_comment.PostGetCommentResult;
 import com.example.bewith.view.main.data.CommentData;
-import com.example.bewith.util.network.comment.GetComment;
 import com.example.bewith.data.Constants;
 import com.google.android.gms.maps.model.LatLng;
 import com.rugovit.eventlivedata.MutableEventLiveData;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class MainActivityViewModel extends ViewModel {
+    private Retrofit retrofit;
+    private RetrofitGetCommentInterface retrofitGetCommentInterface;
     private String UUID;
     private String IP_ADDRESS;
     private MutableEventLiveData<ArrayList<CommentData>> commentArrayListLiveData;//전체 코멘트 정보
@@ -23,6 +32,13 @@ public class MainActivityViewModel extends ViewModel {
     public MainActivityViewModel() {
         UUID = Constants.UUID;
         IP_ADDRESS = Constants.IP_ADDRESS;
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl("http://" +IP_ADDRESS+"/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        retrofitGetCommentInterface = retrofit.create(RetrofitGetCommentInterface.class);
     }
 
     public MutableEventLiveData<ArrayList<CommentData>> getCommentArrayListLiveData() {
@@ -40,24 +56,38 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public void getComment(int radiusIndex) {
-        //동기처리 해야함
-        GetComment getComment = new GetComment();
-        getComment.execute("http://" + IP_ADDRESS + "/getComment.php", "");
-        //받은게 완료된 후 진행되야함
 
+        Call<PostGetCommentResult> call = retrofitGetCommentInterface.retrofitGetComment();
+        call.enqueue(new Callback<PostGetCommentResult>() {
+            @Override
+            public void onResponse(Call<PostGetCommentResult> call, Response<PostGetCommentResult> response) {
+                if(response.isSuccessful()){
+                    PostGetCommentResult result = response.body();
+                    ArrayList tempCommentArrayList = new ArrayList();
 
-        ArrayList tempCommentArrayList = new ArrayList();
+                    for (CommentData commentData : result.getCommentArrayList()) {
+                        double distance = DistanceCalculator.calculateDistance(new LatLng(MainActivity.myLatitude, MainActivity.myLongitude),
+                                commentData.latitude, commentData.longitude);//두점 사이 계산
+                        if (distance < 1000) {//전체 데이터중 거리가 1km이하인 데이터만 저장함
+                            tempCommentArrayList.add(commentData);
+                        }
+                    }
+                    getCommentArrayListLiveData();
+                    commentArrayListLiveData.setValue(tempCommentArrayList);
+                    onSeleteSpinner(radiusIndex);
 
-        for (CommentData commentData : Constants.commnentDataArrayList) {
-            double distance = DistanceCalculator.calculateDistance(new LatLng(MainActivity.myLatitude, MainActivity.myLogitude),
-                    commentData.latitude, commentData.logitude);//두점 사이 계산
-            if (distance < 1000) {//전체 데이터중 거리가 1km이하인 데이터만 저장함
-                tempCommentArrayList.add(commentData);
+                }
+                else{
+                    Log.d("MainActivityViewModel","실패");
+                }
             }
-        }
-        getCommentArrayListLiveData();
-        commentArrayListLiveData.setValue(tempCommentArrayList);
-        onSeleteSpinner(radiusIndex);
+
+            @Override
+            public void onFailure(Call<PostGetCommentResult> call, Throwable t) {
+                Log.d("MainActivityViewModel",t.toString());
+            }
+        });
+
     }
 
     public void onSeleteSpinner(int radiusIndex) {
@@ -87,8 +117,8 @@ public class MainActivityViewModel extends ViewModel {
                             m = 1000;
                             break;
                     }
-                    double distance = DistanceCalculator.calculateDistance(new LatLng(MainActivity.myLatitude, MainActivity.myLogitude),
-                            commentData.latitude, commentData.logitude);//두점 사이 계산
+                    double distance = DistanceCalculator.calculateDistance(new LatLng(MainActivity.myLatitude, MainActivity.myLongitude),
+                            commentData.latitude, commentData.longitude);//두점 사이 계산
                     if (distance < m) {
                         tempSpinnerCommentArrayList.add(commentData);
                     }
@@ -99,8 +129,8 @@ public class MainActivityViewModel extends ViewModel {
         }catch (Exception e){
             Log.e("Error",e.toString());
         }
-
     }
+
 }
 
 

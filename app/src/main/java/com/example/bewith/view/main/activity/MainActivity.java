@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MainActivityViewModel mainActivityViewModel;
     private GoogleMap mMap;
     public static double myLatitude;
-    public static double myLogitude;
+    public static double myLongitude;
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private TextView noDataTextView;
     private SwipeMenuListView myCommentListView;
@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Intent intent = getIntent();
         Constants.UUID = intent.getStringExtra("UUID");
         myLatitude = Double.parseDouble(intent.getStringExtra("Lat"));
-        myLogitude = Double.parseDouble(intent.getStringExtra("Lng"));
+        myLongitude = Double.parseDouble(intent.getStringExtra("Lng"));
 
         noDataTextView = binding.noDataTextView;
         myCommentListView = binding.myCommnentListView;
@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return;
         }
         mMap.setMyLocationEnabled(true);
-        LatLng myLocation = new LatLng(myLatitude, myLogitude);
+        LatLng myLocation = new LatLng(myLatitude, myLongitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 18));
 
     }
@@ -175,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(spinnerArrayList.get(position).latitude),
-                        Double.parseDouble(spinnerArrayList.get(position).logitude)), mMap.getCameraPosition().zoom));
+                        Double.parseDouble(spinnerArrayList.get(position).longitude)), mMap.getCameraPosition().zoom));
 
             }
         });
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(spinnerArrayList.get(i).latitude),
-                        Double.parseDouble(spinnerArrayList.get(i).logitude)), mMap.getCameraPosition().zoom));
+                        Double.parseDouble(spinnerArrayList.get(i).longitude)), mMap.getCameraPosition().zoom));
             }
         });
         //열려있을때 메뉴 클릭 메소드

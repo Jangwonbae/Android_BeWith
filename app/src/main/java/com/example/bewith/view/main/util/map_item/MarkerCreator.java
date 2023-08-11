@@ -7,7 +7,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MarkerCreator {
     public void addMarker(GoogleMap mMap, CommentData commentData){
-        LatLng latLng = new LatLng(Double.parseDouble(commentData.latitude), Double.parseDouble(commentData.logitude));
+        LatLng latLng = new LatLng(Double.parseDouble(commentData.latitude), Double.parseDouble(commentData.longitude));
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(latLng);
         markerOptions.title(commentData.text);

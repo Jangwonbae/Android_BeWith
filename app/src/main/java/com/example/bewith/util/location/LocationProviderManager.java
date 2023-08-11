@@ -26,7 +26,7 @@ public class LocationProviderManager {
     private LocationCallback locationCallback;
     private LatLng myLocation;
     private double myLatitude;
-    private double myLogitude;
+    private double myLongitude;
 
     private Context context;
     public LocationProviderManager(Context context){
@@ -49,7 +49,7 @@ public class LocationProviderManager {
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
                 MainActivity.myLatitude = locationResult.getLastLocation().getLatitude();
-                MainActivity.myLogitude = locationResult.getLastLocation().getLongitude();
+                MainActivity.myLongitude = locationResult.getLastLocation().getLongitude();
                 fusedLocationProviderClient.removeLocationUpdates(locationCallback);
 
 

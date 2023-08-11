@@ -1,22 +1,37 @@
 package com.example.bewith.view.main.data;
 
-public class CommentData {
-    public int _id;
-    public String UUID;
-    public String time;
-    public String category;
-    public String text;
-    public String latitude;
-    public String logitude;
+import com.google.gson.annotations.SerializedName;
 
-    public CommentData(int _id,String UUID,String time, String category,String text,String latitude,String logitude){
+public class CommentData {
+    @SerializedName("id")
+    public int _id;
+
+    @SerializedName("UUID")
+    public String UUID;
+
+    @SerializedName("time")
+    public String time;
+
+    @SerializedName("category")
+    public String category;
+
+    @SerializedName("text")
+    public String text;
+
+    @SerializedName("str_latitude")
+    public String latitude;
+
+    @SerializedName("str_longitude")
+    public String longitude;
+
+    public CommentData(int _id,String UUID,String time, String category,String text,String latitude,String longitude){
         this._id=_id;
         this.UUID=UUID;
         this.time=time;
         this.category=category;
         this.text=text;
         this.latitude=latitude;
-        this.logitude=logitude;
+        this.longitude=longitude;
 
     }
 }
