@@ -23,7 +23,6 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.bewith.R;
 import com.example.bewith.view.modify_pop_up.ModifyPopUpActivity;
 import com.example.bewith.databinding.ActivityMainBinding;
-import com.example.bewith.util.network.comment.DeleteComment;
 import com.example.bewith.data.Constants;
 import com.example.bewith.view.main.data.CommentData;
 import com.example.bewith.view.main.adapter.MyAdapter;
@@ -52,12 +51,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private MyAdapter listAdapter;
 
     private ArrayList<CommentData> spinnerArrayList = new ArrayList<>();
-    public int radiusIndex;
+    public int radiusIndex = 0;
     private static String IP_ADDRESS;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //유니티로 부터 받는 정보
+        Intent intent = getIntent();
+        Constants.UUID = intent.getStringExtra("UUID");
+        myLatitude = Double.parseDouble(intent.getStringExtra("Lat"));
+        myLongitude = Double.parseDouble(intent.getStringExtra("Lng"));
         //데이터 바인딩
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         //뷰모델 객체 생성
@@ -67,14 +71,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        radiusIndex = 0;
         //서버 IP
         IP_ADDRESS = Constants.IP_ADDRESS;
-        //유니티로 부터 받는 정보
-        Intent intent = getIntent();
-        Constants.UUID = intent.getStringExtra("UUID");
-        myLatitude = Double.parseDouble(intent.getStringExtra("Lat"));
-        myLongitude = Double.parseDouble(intent.getStringExtra("Lng"));
 
         noDataTextView = binding.noDataTextView;
         myCommentListView = binding.myCommnentListView;
@@ -215,11 +213,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         activityResultLauncher.launch(intent);
                         break;
                     case 1://삭제
-                        //동기 처리 진행
-                        DeleteComment deleteComment = new DeleteComment();
-                        deleteComment.execute("http://" + IP_ADDRESS + "/deleteComment.php", Integer.toString(spinnerArrayList.get(position)._id));
-                        //삭제되고 난 후 진행되어야 함
-                        mainActivityViewModel.getComment(radiusIndex);
+                        mainActivityViewModel.deleteComment(radiusIndex, Integer.toString(spinnerArrayList.get(position)._id));
+
                         break;
                 }
                 return true;
@@ -231,15 +226,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         mainActivityViewModel.getSpinnerCommentArrayListLiveData().observeInOnStart(this, new Observer<ArrayList<CommentData>>() {
             @Override
             public void onChanged(ArrayList<CommentData> CommentDataList) {
+                spinnerArrayList.clear();//비우고 다시 채우기
                 if (CommentDataList.isEmpty()) {
                     noDataTextView.setVisibility(View.VISIBLE);//데이터 없음 표시
                 } else {
                     noDataTextView.setVisibility(View.INVISIBLE);
+                    for (CommentData commentData : CommentDataList) {
+                        spinnerArrayList.add(commentData);
+                    }//why? notifyDataSetChanged() 얘는 spinnerArrayList= CommentDataList 이런식으로 하면 갱신이 안되더라
                 }
-                spinnerArrayList.clear();//비우고 다시 채우기
-                for (CommentData commentData : CommentDataList) {
-                    spinnerArrayList.add(commentData);
-                }//why? notifyDataSetChanged() 얘는 friends= friendDatalist 이런식으로 하면 갱신이 안되더라
                 if (radiusIndex == 0) {
                     swipeMenuListAdapter.notifyDataSetChanged();
                 } else {

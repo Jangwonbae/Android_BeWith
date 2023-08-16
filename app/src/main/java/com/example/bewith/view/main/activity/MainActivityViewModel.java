@@ -5,7 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bewith.util.location.DistanceCalculator;
-import com.example.bewith.util.network.retrofit_comment.get_comment.RetrofitGetCommentInterface;
+import com.example.bewith.util.network.retrofit_comment.get_comment.RetrofitService;
 import com.example.bewith.util.network.retrofit_comment.get_comment.PostGetCommentResult;
 import com.example.bewith.view.main.data.CommentData;
 import com.example.bewith.data.Constants;
@@ -21,8 +21,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivityViewModel extends ViewModel {
-    private Retrofit retrofit;
-    private RetrofitGetCommentInterface retrofitGetCommentInterface;
     private String UUID;
     private String IP_ADDRESS;
     private MutableEventLiveData<ArrayList<CommentData>> commentArrayListLiveData;//전체 코멘트 정보
@@ -32,13 +30,6 @@ public class MainActivityViewModel extends ViewModel {
     public MainActivityViewModel() {
         UUID = Constants.UUID;
         IP_ADDRESS = Constants.IP_ADDRESS;
-
-        retrofit = new Retrofit.Builder()
-                .baseUrl("http://" +IP_ADDRESS+"/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        retrofitGetCommentInterface = retrofit.create(RetrofitGetCommentInterface.class);
     }
 
     public MutableEventLiveData<ArrayList<CommentData>> getCommentArrayListLiveData() {
@@ -56,8 +47,15 @@ public class MainActivityViewModel extends ViewModel {
     }
 
     public void getComment(int radiusIndex) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://" +IP_ADDRESS+"/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        Call<PostGetCommentResult> call = retrofitGetCommentInterface.retrofitGetComment();
+        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
+        //retrofit을 통한 객체 구현, 추상 메소드 중 사용할 메소드 Call 객체에 등록
+        Call<PostGetCommentResult> call = retrofitService.retrofitGetComment();
+        //비동기 enqueue 작업으로 실행, 통신종료 후 이벤트 처리를 위해 Callback 등록
         call.enqueue(new Callback<PostGetCommentResult>() {
             @Override
             public void onResponse(Call<PostGetCommentResult> call, Response<PostGetCommentResult> response) {
@@ -78,20 +76,20 @@ public class MainActivityViewModel extends ViewModel {
 
                 }
                 else{
-                    Log.d("MainActivityViewModel","실패");
+                    Log.d("MainActivityViewModelGet","실패");
                 }
             }
 
             @Override
             public void onFailure(Call<PostGetCommentResult> call, Throwable t) {
-                Log.d("MainActivityViewModel",t.toString());
+                Log.d("MainActivityViewModelGet",t.toString());
             }
         });
 
     }
 
     public void onSeleteSpinner(int radiusIndex) {
-        ArrayList tempSpinnerCommentArrayList = new ArrayList();
+        ArrayList<CommentData> tempSpinnerCommentArrayList = new ArrayList();
         int m = 0;
         try{
             for (CommentData commentData : getCommentArrayListLiveData().getValue()) {
@@ -130,7 +128,31 @@ public class MainActivityViewModel extends ViewModel {
             Log.e("Error",e.toString());
         }
     }
+    public void deleteComment(int radiusIndex, String _id) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://" +IP_ADDRESS+"/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        RetrofitService retrofitService = retrofit.create(RetrofitService.class);
+        Call<Void> call = retrofitService.retrofitDeleteComment(_id);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if(response.isSuccessful()){
+                    getComment(radiusIndex);
+                }
+                else{
+                    Log.d("MainActivityViewModelDelete","실패");
+                }
+            }
 
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Log.d("MainActivityViewModelDelete",t.toString());
+            }
+        });
+
+    }
 }
 
 
