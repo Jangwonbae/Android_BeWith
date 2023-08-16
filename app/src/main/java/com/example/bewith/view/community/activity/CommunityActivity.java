@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.bewith.R;
+import com.example.bewith.data.Constants;
 import com.example.bewith.view.modify_reply.ModifyReplyActivity;
 import com.example.bewith.databinding.ActivityCommunityBinding;
 import com.example.bewith.view.community.activity.fragment.ExampleBottomSheetDialog;
@@ -42,7 +43,7 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
     private String commuityUUID;
     private String myUUID;
     private String nickname;
-    private int int_likeCount;
+    private int int_likeCount=0;
 
     private boolean likeState;
     private int selectIndex;
@@ -50,14 +51,16 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //유니티에서 인텐트로 받아서 세팅하기
+        Intent intent = getIntent();
+        Constants.UUID = intent.getStringExtra("myUUID");
         //데이터 바인딩
         binding = DataBindingUtil.setContentView(this, R.layout.activity_community);
         //뷰모델 객체 생성
         communityActivityViewModel = new ViewModelProvider(this).get(CommunityActivityViewModel.class);
         //뷰모델 적용
         binding.setViewModel(communityActivityViewModel);
-        //유니티에서 인텐트로 받아서 세팅하기
-        Intent intent = getIntent();
+
         //시간 , 내용, 게시물uuid, 게시물id, 사용자uuid
         binding.communityTimeTextView.setText(intent.getStringExtra("mainTime"));
         //닉네임
@@ -156,17 +159,17 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
             public void onClick(View view) {
                 if (likeState) {//좋아요 표시상태에서 버튼을 누르면
                     binding.likeImageView.setImageResource(R.drawable.likesoff);//OFF로 변경
-                    int_likeCount--;
-                    binding.likeCountTextView.setText(int_likeCount + "");
                     likeState = false;
+                    int_likeCount-=1;
+                    binding.likeCountTextView.setText(int_likeCount+"");
 
                 } else {//좋아요가 안눌러진 상태에서 버튼을 누르면
                     binding.likeImageView.setImageResource(R.drawable.likeson);//ON으로 변경
-                    int_likeCount++;
-                    binding.likeCountTextView.setText(int_likeCount + "");
                     likeState = true;
+                    int_likeCount+=1;
+                    binding.likeCountTextView.setText(int_likeCount+"");
                 }
-                communityActivityViewModel.controlLikeData(likeState, commuityUUID, communityId);
+                communityActivityViewModel.controlLikeData(likeState, communityId);
             }
         });
         binding.submitImageView.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +187,7 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
         SharedPreferences prefs = getSharedPreferences("person_name", 0);
         String name = prefs.getString("name", "");
         //서버에 댓글 정보 추가
-        communityActivityViewModel.addReplyData(commuityUUID, communityId, name, binding.replyEditText.toString().trim());
+        communityActivityViewModel.addReplyData(communityId, name, binding.replyEditText.getText().toString().trim());
         binding.replyEditText.setText("");
         //키보드 내리기
         InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
@@ -243,11 +246,13 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
                 if (likeData.getMyLike()) {
                     binding.likeImageView.setImageResource(R.drawable.likeson);
                     likeState = true;
+
                 } else {
                     binding.likeImageView.setImageResource(R.drawable.likesoff);
                     likeState = false;
                 }
-                binding.likeCountTextView.setText(likeData.getLikeCount()+ "");
+                int_likeCount=likeData.getLikeCount();
+                binding.likeCountTextView.setText(int_likeCount+ "");
             }
         });
     }
@@ -256,7 +261,9 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
         //댓글 수정하기 갔다왔을 때 실행
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
-                communityActivityViewModel.getReplyData(communityId);
+                String id = result.getData().getStringExtra("id");
+                String text = result.getData().getStringExtra("text");
+                communityActivityViewModel.modifyReply(communityId, id,text);
             }
         });
 
