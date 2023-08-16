@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.lifecycle.ViewModel;
 
 import com.example.bewith.util.location.DistanceCalculator;
+import com.example.bewith.util.network.RetrofitResult;
 import com.example.bewith.util.network.RetrofitService;
 import com.example.bewith.view.main.data.CommentData;
 import com.example.bewith.data.Constants;
@@ -26,7 +27,7 @@ public class MainActivityViewModel extends ViewModel {
     private MutableEventLiveData<ArrayList<CommentData>> spinnerCommentArrayListLiveData;//스피너 목록에 따라 보여지는 코멘트 정보
 
     private Retrofit retrofit;
-    RetrofitService retrofitService;
+    private RetrofitService retrofitService;
 
     public MainActivityViewModel() {
         UUID = Constants.UUID;
@@ -57,13 +58,13 @@ public class MainActivityViewModel extends ViewModel {
     public void getComment(int radiusIndex) {
 
         //retrofit을 통한 객체 구현, 추상 메소드 중 사용할 메소드 Call 객체에 등록
-        Call<Constants> call = retrofitService.retrofitGetComment();
+        Call<RetrofitResult> call = retrofitService.retrofitGetComment();
         //비동기 enqueue 작업으로 실행, 통신종료 후 이벤트 처리를 위해 Callback 등록
-        call.enqueue(new Callback<Constants>() {
+        call.enqueue(new Callback<RetrofitResult>() {
             @Override
-            public void onResponse(Call<Constants> call, Response<Constants> response) {
+            public void onResponse(Call<RetrofitResult> call, Response<RetrofitResult> response) {
                 if(response.isSuccessful()){
-                    Constants result = response.body();
+                    RetrofitResult result = response.body();
                     ArrayList tempCommentArrayList = new ArrayList();
 
                     for (CommentData commentData : result.getCommentArrayList()) {
@@ -84,7 +85,7 @@ public class MainActivityViewModel extends ViewModel {
             }
 
             @Override
-            public void onFailure(Call<Constants> call, Throwable t) {
+            public void onFailure(Call<RetrofitResult> call, Throwable t) {
                 Log.d("MainActivityViewModelGet",t.toString());
             }
         });

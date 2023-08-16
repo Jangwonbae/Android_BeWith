@@ -1,8 +1,8 @@
 package com.example.bewith.view.community.data;
 
 public class LikeData {
-    private Boolean myLike;
-    private int likeCount;
+    private Boolean myLike = false;
+    private int likeCount = 0;
 
     public Boolean getMyLike() {
         return myLike;
