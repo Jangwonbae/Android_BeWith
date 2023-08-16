@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 import com.example.bewith.R;
 import com.example.bewith.databinding.ActivityModifyPopUpBinding;
-import com.example.bewith.util.network.comment.ModifyComment;
 import com.example.bewith.data.Constants;
 
 public class ModifyPopUpActivity extends Activity {
@@ -28,11 +27,11 @@ public class ModifyPopUpActivity extends Activity {
         super.onCreate(savedInstanceState);
         //뷰 바인딩
         binding = ActivityModifyPopUpBinding.inflate(getLayoutInflater());
+        //타이틀바 없애기
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(binding.getRoot());
         //서버 IP
         IP_ADDRESS= Constants.IP_ADDRESS;
-        //타이틀바 없애기
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         //인텐트 받기
         Intent data = getIntent();
         _id = data.getIntExtra("id",-1);
@@ -76,18 +75,18 @@ public class ModifyPopUpActivity extends Activity {
         binding.okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.contentsEditText.getText().toString().trim();//텍스트 내용
+                contents = binding.contentsEditText.getText().toString().trim();//텍스트 내용
                 if(contents.equals("")){
                     Toast.makeText(ModifyPopUpActivity.this,"내용을 입력하세요.",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    //동기 처리 되어야함
-                    ModifyComment modifyComment = new ModifyComment();//내 comment 내용 서버에 전송
-                    modifyComment.execute("http://" + IP_ADDRESS + "/updateComment.php",Integer.toString(_id),categoryText,contents);//서버에 전송
-                    //동기 처리
-                    //갱신메소드
-                    setResult(RESULT_OK);
+                    Intent intent = new Intent();
+                    intent.putExtra("id",Integer.toString(_id));
+                    intent.putExtra("category",categoryText);
+                    intent.putExtra("text",contents);
+                    setResult(Activity.RESULT_OK,intent);
                     finish();
+
                 }
             }
         });

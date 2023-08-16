@@ -246,7 +246,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void initActivityResult(){
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
-                mainActivityViewModel.getComment(radiusIndex);
+                String _id = result.getData().getStringExtra("id");
+                String category = result.getData().getStringExtra("category");
+                String text = result.getData().getStringExtra("text");
+                mainActivityViewModel.modifyComment(radiusIndex, _id, category, text);
             }
         });
     }
