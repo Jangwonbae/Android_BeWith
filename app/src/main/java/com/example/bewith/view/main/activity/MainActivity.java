@@ -7,8 +7,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -21,6 +24,8 @@ import android.widget.TextView;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.example.bewith.R;
+import com.example.bewith.util.location.LocationProviderManager;
+import com.example.bewith.view.main.adapter.CustomAdapter;
 import com.example.bewith.view.modify_pop_up.ModifyPopUpActivity;
 import com.example.bewith.databinding.ActivityMainBinding;
 import com.example.bewith.data.Constants;
@@ -46,13 +51,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ActivityResultLauncher<Intent> activityResultLauncher;
     private TextView noDataTextView;
     private SwipeMenuListView myCommentListView;
-    private ListView commentListView;
+    private RecyclerView commentListView;
     private MyAdapter swipeMenuListAdapter;
-    private MyAdapter listAdapter;
+    private CustomAdapter listAdapter;
 
     private ArrayList<CommentData> spinnerArrayList = new ArrayList<>();
     public int radiusIndex = 0;
-    private static String IP_ADDRESS;
+
+    private LocationProviderManager locationProviderManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,8 +77,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        //서버 IP
-        IP_ADDRESS = Constants.IP_ADDRESS;
 
         noDataTextView = binding.noDataTextView;
         myCommentListView = binding.myCommnentListView;
@@ -83,8 +87,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         swipeMenuListAdapter = new MyAdapter(MainActivity.this, spinnerArrayList);//어뎁터에 어레이리스트를 붙임
         myCommentListView.setAdapter(swipeMenuListAdapter);//땡길 수 있는 리스트를 어뎁터에 붙임
 
-        listAdapter = new MyAdapter(MainActivity.this, spinnerArrayList);//어뎁터에 어레이리스트를 붙임
-        commentListView.setAdapter(listAdapter);//리스트를 어뎁터에 붙임
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager((Context) this);
+        commentListView.setLayoutManager(linearLayoutManager);  // LayoutManager 설정
+
+        listAdapter = new CustomAdapter(spinnerArrayList);
+        commentListView.setAdapter(listAdapter); // 어댑터 설정
+
+
+        //listAdapter = new MyAdapter(MainActivity.this, spinnerArrayList);//어뎁터에 어레이리스트를 붙임
+        //commentListView.setAdapter(listAdapter);//리스트를 어뎁터에 붙임
         commentListView.setVisibility(View.GONE);
 
         initListClick();
@@ -93,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initObserver();
         initActivityResult();
 
+        locationProviderManager = new LocationProviderManager(MainActivity.this);
     }
 
     @Override
@@ -152,6 +164,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     commentListView.setVisibility(View.VISIBLE);//일반리스트를 보이게
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {//무시하면됨(아무 것도 선택 안됐을 때)
             }
@@ -162,21 +175,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding.reloadFbtn.setOnClickListener(new View.OnClickListener() {//새로고침 버튼
             @Override
             public void onClick(View v) {
+                locationProviderManager.getMyLocation();
                 mainActivityViewModel.getComment(radiusIndex);
             }
         });
     }
 
     public void initListClick() {
+        listAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
+            //동작 구현
+            @Override
+            public void onItemClick(View v, int pos) {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(spinnerArrayList.get(pos).latitude),
+                        Double.parseDouble(spinnerArrayList.get(pos).longitude)), mMap.getCameraPosition().zoom));
+
+            }
+        });
         //전체 사용자 comment 리스트 클릭 이벤트
-        commentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*commentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(spinnerArrayList.get(position).latitude),
                         Double.parseDouble(spinnerArrayList.get(position).longitude)), mMap.getCameraPosition().zoom));
 
             }
-        });
+        });*/
         //swipeMenuListView 리스트 열었다 닫았다 메소드
         myCommentListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
             @Override
@@ -221,7 +244,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
-    public void initObserver(){
+
+    public void initObserver() {
         //스피너 목록에 따라 보여지는 리스트가 변경되면
         mainActivityViewModel.getSpinnerCommentArrayListLiveData().observeInOnStart(this, new Observer<ArrayList<CommentData>>() {
             @Override
@@ -243,7 +267,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
-    public void initActivityResult(){
+
+    public void initActivityResult() {
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
             if (result.getResultCode() == RESULT_OK) {
                 String _id = result.getData().getStringExtra("id");

@@ -5,11 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.bewith.R;
 import com.example.bewith.databinding.ActivitySetNickBinding;
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
@@ -40,7 +37,9 @@ public class SetNickActivity extends AppCompatActivity {
             finish();
         }
     }
-    public void mOnClick(View v){
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 }

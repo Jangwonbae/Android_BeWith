@@ -18,7 +18,6 @@ import android.util.Log;
 
 import com.example.bewith.R;
 import com.example.bewith.view.set_nick.SetNickActivity;
-import com.example.bewith.data.Constants;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
@@ -47,6 +46,8 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+
     }
 
 
@@ -165,5 +166,9 @@ public class SplashActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
     }
 }

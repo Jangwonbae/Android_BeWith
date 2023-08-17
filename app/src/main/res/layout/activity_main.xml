@@ -96,13 +96,13 @@
                     android:layout_gravity="center"
                     android:text="검색된 메시지가 없습니다."
                     android:textSize="16dp" />
-
                 <com.baoyz.swipemenulistview.SwipeMenuListView
                     android:id="@+id/my_commnent_list_view"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></com.baoyz.swipemenulistview.SwipeMenuListView>
+                    android:layout_height="match_parent">
+                </com.baoyz.swipemenulistview.SwipeMenuListView>
 
-                <ListView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comment_list_view"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />

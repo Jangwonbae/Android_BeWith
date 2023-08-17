@@ -24,9 +24,7 @@ public class LocationProviderManager {
     public static final long DEFAULT_LOCATION_REQUEST_INTERVAL = 2000L;
     public static final long DEFAULT_LOCATION_REQUEST_FAST_INTERVAL = 2000L;
     private LocationCallback locationCallback;
-    private LatLng myLocation;
-    private double myLatitude;
-    private double myLongitude;
+
 
     private Context context;
     public LocationProviderManager(Context context){
