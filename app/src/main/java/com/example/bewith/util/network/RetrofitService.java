@@ -1,7 +1,5 @@
 package com.example.bewith.util.network;
 
-import com.example.bewith.data.Constants;
-
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;

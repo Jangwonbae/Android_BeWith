@@ -20,7 +20,7 @@ public class ModifyPopUpActivity extends Activity {
     private String contents;
     private int categoryIndex;
     private String categoryText;
-    private static String IP_ADDRESS;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +30,6 @@ public class ModifyPopUpActivity extends Activity {
         //타이틀바 없애기
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(binding.getRoot());
-        //서버 IP
-        IP_ADDRESS= Constants.IP_ADDRESS;
         //인텐트 받기
         Intent data = getIntent();
         _id = data.getIntExtra("id",-1);

@@ -4,7 +4,6 @@ import com.example.bewith.view.community.data.LikeModel;
 import com.example.bewith.view.community.data.ReplyData;
 import com.example.bewith.view.main.data.CommentData;
 import com.google.gson.annotations.SerializedName;
-
 import java.util.ArrayList;
 
 public class RetrofitResult {

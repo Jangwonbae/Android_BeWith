@@ -11,9 +11,7 @@ import com.example.bewith.view.community.data.LikeData;
 import com.example.bewith.view.community.data.LikeModel;
 import com.example.bewith.view.community.data.ReplyData;
 import com.rugovit.eventlivedata.MutableEventLiveData;
-
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
