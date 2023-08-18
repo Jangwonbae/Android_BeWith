@@ -43,8 +43,8 @@ public class MyAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.comment_list,viewGroup,false);
         }
 
-        TextView text1 = (TextView)view.findViewById(R.id.category_text_view);
-        TextView text2 = (TextView)view.findViewById(R.id.contents_text_view);
+        TextView text1 = view.findViewById(R.id.category_text_view);
+        TextView text2 = view.findViewById(R.id.contents_text_view);
 
         text1.setText(data.get(i).category);
         text2.setText(data.get(i).text);

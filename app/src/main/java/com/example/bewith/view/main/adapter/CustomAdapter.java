@@ -3,7 +3,6 @@ package com.example.bewith.view.main.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -44,14 +43,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                         if(itemClickListener != null){
                             itemClickListener.onItemClick(view, pos);
                         }
-
-
                     }
                 }
             });
         }
     }
-    //========================================================================
 
     //----- 생성자 --------------------------------------
     // 생성자를 통해서 데이터를 전달받도록 함
@@ -64,7 +60,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     @Override   // ViewHolder 객체를 생성하여 리턴한다.
     public CustomAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.comment_list, parent, false);
+                .inflate(R.layout.comment_recycler_list, parent, false);
         CustomAdapter.ViewHolder viewHolder = new CustomAdapter.ViewHolder(CommentListBinding.bind(view));
 
         return viewHolder;

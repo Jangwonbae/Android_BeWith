@@ -87,15 +87,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         swipeMenuListAdapter = new MyAdapter(MainActivity.this, spinnerArrayList);//어뎁터에 어레이리스트를 붙임
         myCommentListView.setAdapter(swipeMenuListAdapter);//땡길 수 있는 리스트를 어뎁터에 붙임
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager((Context) this);
-        commentListView.setLayoutManager(linearLayoutManager);  // LayoutManager 설정
-
         listAdapter = new CustomAdapter(spinnerArrayList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( this);
+        commentListView.setLayoutManager(linearLayoutManager);  // LayoutManager 설정
         commentListView.setAdapter(listAdapter); // 어댑터 설정
 
-
-        //listAdapter = new MyAdapter(MainActivity.this, spinnerArrayList);//어뎁터에 어레이리스트를 붙임
-        //commentListView.setAdapter(listAdapter);//리스트를 어뎁터에 붙임
         commentListView.setVisibility(View.GONE);
 
         initListClick();
@@ -182,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     public void initListClick() {
+        //전체 사용자 comment 리스트 클릭 이벤트
         listAdapter.setOnItemClickListener(new CustomAdapter.OnItemClickListener() {
             //동작 구현
             @Override
@@ -191,15 +188,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
-        //전체 사용자 comment 리스트 클릭 이벤트
-        /*commentListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(Double.parseDouble(spinnerArrayList.get(position).latitude),
-                        Double.parseDouble(spinnerArrayList.get(position).longitude)), mMap.getCameraPosition().zoom));
-
-            }
-        });*/
         //swipeMenuListView 리스트 열었다 닫았다 메소드
         myCommentListView.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
             @Override

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,24 +19,24 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.bewith.R;
 import com.example.bewith.data.Constants;
+import com.example.bewith.view.community.adapter.ReplyRecyclerViewAdapter;
 import com.example.bewith.view.modify_reply.ModifyReplyActivity;
 import com.example.bewith.databinding.ActivityCommunityBinding;
 import com.example.bewith.view.community.activity.fragment.ExampleBottomSheetDialog;
-import com.example.bewith.view.community.adapter.ReplyAdapter;
 import com.example.bewith.view.community.data.LikeData;
 import com.example.bewith.view.community.data.ReplyData;
+
 import java.util.ArrayList;
 
 public class CommunityActivity extends AppCompatActivity implements ExampleBottomSheetDialog.BottomSheetListener {
     private ActivityCommunityBinding binding;
     private CommunityActivityViewModel communityActivityViewModel;
 
-    private ReplyAdapter replyAdapter;
+    private ReplyRecyclerViewAdapter replyRecyclerViewAdapter;
     private ArrayList<ReplyData> replyDataArrayList = new ArrayList<>();
 
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -78,8 +79,10 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
         SharedPreferences prefs = getSharedPreferences("person_name", 0);
         binding.replyNickNameTextView.setText(prefs.getString("name", ""));
 
-        replyAdapter = new ReplyAdapter(getBaseContext(), replyDataArrayList, commuityUUID, myUUID);
-        binding.replyListView.setAdapter(replyAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( this);
+        replyRecyclerViewAdapter = new ReplyRecyclerViewAdapter(replyDataArrayList, commuityUUID, myUUID);
+        binding.replyListView.setLayoutManager(linearLayoutManager);
+        binding.replyListView.setAdapter(replyRecyclerViewAdapter);
 
         binding.submitImageView.setVisibility(View.INVISIBLE); //처음에는 에디트텍스트에 아무것도 없기 때문에 제출 버튼 감추기
         binding.replyEditText.setImeOptions(EditorInfo.IME_ACTION_DONE); //키보드 다음 버튼을 완료 버튼으로 바꿔줌
@@ -132,13 +135,13 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
 
     }
     public void initListClick(){
-        binding.replyListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {//리스트 클릭 리스너
+        replyRecyclerViewAdapter.setOnItemClickListener(new ReplyRecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (replyDataArrayList.get(i).ReplyUUID.equals(myUUID)) {
+            public void onItemClick(View v, int pos) {
+                if (replyDataArrayList.get(pos).ReplyUUID.equals(myUUID)) {
                     ExampleBottomSheetDialog bottomSheetDialog = new ExampleBottomSheetDialog();
                     bottomSheetDialog.show(getSupportFragmentManager(), "exampleBottomSheet");
-                    selectIndex = i;
+                    selectIndex = pos;
                 }
             }
         });
@@ -235,7 +238,7 @@ public class CommunityActivity extends AppCompatActivity implements ExampleBotto
                 for(ReplyData replyData : replyDataList){
                     replyDataArrayList.add(replyData);
                 }
-                replyAdapter.notifyDataSetChanged();
+                replyRecyclerViewAdapter.notifyDataSetChanged();
                 binding.replyCountTextView.setText(replyDataArrayList.size() + "");
             }
         });

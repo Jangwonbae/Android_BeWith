@@ -2,22 +2,21 @@ package com.example.bewith.view.search.activity;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.bewith.R;
 import com.example.bewith.databinding.ActivitySearchBinding;
+import com.example.bewith.view.search.adapter.SearchLabRecyclerViewAdapter;
+import com.example.bewith.view.search.adapter.SearchRecyclerViewAdapter;
 import com.example.bewith.view.search.data.ClassData;
 import com.example.bewith.view.search.data.ProfessorData;
-import com.example.bewith.view.search.adapter.SearchAdapter;
-import com.example.bewith.view.search.adapter.SearchLabAdapter;
 import com.unity3d.player.UnityPlayer;
 import com.unity3d.player.UnityPlayerActivity;
 
@@ -34,8 +33,10 @@ public class SearchActivity extends AppCompatActivity {
 
     private ArrayList<ClassData> classDataArraylist;
     private ArrayList<ProfessorData> professorDataArrayList;
-    private SearchLabAdapter searchLabAdapter;
-    private SearchAdapter searchAdapter;
+
+    private SearchRecyclerViewAdapter searchRecyclerViewAdapter;
+    private SearchLabRecyclerViewAdapter searchLabRecyclerViewAdapter;
+
     private String what;
 
     private String fileName;
@@ -51,13 +52,15 @@ public class SearchActivity extends AppCompatActivity {
         what = intent.getStringExtra("What");
         //확인버튼 활성화
         binding.searchView.setSubmitButtonEnabled(true);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager( this);
 
 
         if (what.equals("class")) {
             binding.searchView.setQueryHint("강의명으로 검색");
             classDataArraylist = new ArrayList<>();
-            searchAdapter = new SearchAdapter(getBaseContext(), classDataArraylist);
-            binding.searchListView.setAdapter(searchAdapter);
+            searchRecyclerViewAdapter = new SearchRecyclerViewAdapter(classDataArraylist);
+            binding.searchListView.setLayoutManager(linearLayoutManager);
+            binding.searchListView.setAdapter(searchRecyclerViewAdapter);
             fileName = "jsons/classes.json";
             arrayName = "class";
 
@@ -65,8 +68,9 @@ public class SearchActivity extends AppCompatActivity {
         } else {
             binding.searchView.setQueryHint("교수명으로 검색");
             professorDataArrayList = new ArrayList<>();
-            searchLabAdapter = new SearchLabAdapter(getBaseContext(), professorDataArrayList);
-            binding.searchListView.setAdapter(searchLabAdapter);
+            searchLabRecyclerViewAdapter = new SearchLabRecyclerViewAdapter(professorDataArrayList);
+            binding.searchListView.setLayoutManager(linearLayoutManager);
+            binding.searchListView.setAdapter(searchLabRecyclerViewAdapter);
             fileName = "jsons/professors.json";
             arrayName = "professor";
         }
@@ -120,10 +124,10 @@ public class SearchActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if(what.equals("class")){
-            searchAdapter.notifyDataSetChanged();
+            searchRecyclerViewAdapter.notifyDataSetChanged();
         }
         else{
-            searchLabAdapter.notifyDataSetChanged();
+            searchLabRecyclerViewAdapter.notifyDataSetChanged();
         }
 
     }
@@ -154,52 +158,61 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public void ininListClick() {
-        binding.searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {//리스트뷰 클릭 리스너
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String where = "";
-                if(what.equals("class")){
+        if(what.equals("class")){
+            searchRecyclerViewAdapter.setOnItemClickListener(new SearchRecyclerViewAdapter.OnItemClickListener(){
+                //동작 구현
+                @Override
+                public void onItemClick(View v, int pos) {
+                    String where = "";
                     for (String office : getResources().getStringArray(R.array.office_array)) {
-                        if (classDataArraylist.get(position).timePlace.contains(office)) {
+                        if (classDataArraylist.get(pos).timePlace.contains(office)) {
                             where = office;
                         }
                     }
-                }else{
+                    showDialog(where);
+                }
+            });
+        }
+        else {
+            searchLabRecyclerViewAdapter.setOnItemClickListener(new SearchLabRecyclerViewAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View v, int pos) {
+                    String where = "";
                     for (String office : getResources().getStringArray(R.array.office_array)) {
-                        if (professorDataArrayList.get(position).lab.contains(office)) {
+                        if (professorDataArrayList.get(pos).lab.contains(office)) {
                             where = office;
                         }
                     }
+                    showDialog(where);
                 }
-
-
-                if (where.equals("")) {
-                    Toast.makeText(SearchActivity.this, "정보가 없거나 해당 건물로는 안내할 수 없습니다.", Toast.LENGTH_SHORT).show();
-                } else {
-                    AlertDialog.Builder ad = new AlertDialog.Builder(SearchActivity.this);
-                    ad.setTitle("길안내");
-                    ad.setMessage(where + "(으)로 AR네이게이션을 실행합니다.");
-                    String finalWhere = where;
-                    ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = new Intent(SearchActivity.this, UnityPlayerActivity.class);
-                            UnityPlayer.UnitySendMessage("ButtonManager", "StartRoute", finalWhere);
-                            startActivity(intent);
-                            dialog.dismiss();
-                            finish();
-                        }
-                    });
-                    ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-
-                    ad.show();
+            });
+        }
+        
+    }
+    public void showDialog(String where){
+        if (where.equals("")) {
+            Toast.makeText(SearchActivity.this, "정보가 없거나 해당 건물로는 안내할 수 없습니다.", Toast.LENGTH_SHORT).show();
+        } else {
+            AlertDialog.Builder ad = new AlertDialog.Builder(SearchActivity.this);
+            ad.setTitle("길안내");
+            ad.setMessage(where + "(으)로 AR네이게이션을 실행합니다.");
+            ad.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent(SearchActivity.this, UnityPlayerActivity.class);
+                    UnityPlayer.UnitySendMessage("ButtonManager", "StartRoute", where);
+                    startActivity(intent);
+                    dialog.dismiss();
+                    finish();
                 }
-            }
-        });
+            });
+            ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            ad.show();
+        }
     }
 }
